@@ -1,9 +1,13 @@
+import 'package:chatrooms/redux/actions/public_rooms_actions/fetch_public_rooms.dart';
 import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/redux/state.dart';
 import 'package:redux/redux.dart';
 
-List<Room> _publicRoomsReducer(List<Room> publicRooms, dynamic action) =>
-    publicRooms;
+List<Room> _publicRoomsReducer(
+  List<Room> publicRooms,
+  FetchPublicRooms action,
+) =>
+    action.rooms;
 
-final Reducer<List<Room>> publicRoomsReducer =
-    TypedReducer<List<Room>, dynamic>(publicRoomsReducer);
+final Reducer<List<Room>> publicRoomsReducer = combineReducers([
+  TypedReducer<List<Room>, FetchPublicRooms>(_publicRoomsReducer),
+]);
