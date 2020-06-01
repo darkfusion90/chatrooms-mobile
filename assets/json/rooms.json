@@ -1,0 +1,180 @@
+{
+  "rooms": [
+    {
+      "_id": "remember-oldest-frame-food",
+      "name": "The Mystical Room",
+      "type": "public",
+      "createdBy": {
+        "$oid": "5e64e979f7a63e19e7bfc2eb"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587132904770"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "its-officer-yes-officer",
+      "name": "lklk",
+      "type": "public",
+      "createdBy": {
+        "$oid": "5e64e8a8f7a63e19e7bfc2e8"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587198758116"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "gone-easy-dear-reach",
+      "name": "Mark 53",
+      "type": "private",
+      "createdBy": {
+        "$oid": "5e64e8a8f7a63e19e7bfc2e8"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587282785560"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "cause-biggest-high-purpose",
+      "name": "Popular Room Patched",
+      "type": "public",
+      "createdBy": {
+        "$oid": "5e64e979f7a63e19e7bfc2eb"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587464842734"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "become-above-range-fell",
+      "name": "some room ",
+      "type": "private",
+      "createdBy": {
+        "$oid": "5e64e979f7a63e19e7bfc2eb"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587464895346"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "stay-major-lunch-struck",
+      "name": "some room 2",
+      "type": "private",
+      "createdBy": {
+        "$oid": "5e64e979f7a63e19e7bfc2eb"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587464920243"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "never-black-above-tune",
+      "name": "some room 3",
+      "type": "private",
+      "createdBy": {
+        "$oid": "5e64e979f7a63e19e7bfc2eb"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587464941961"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "given-so-shelter-question",
+      "name": "Mark 51",
+      "type": "private",
+      "createdBy": {
+        "$oid": "5e64e8a8f7a63e19e7bfc2e8"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587607113584"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "deer-get-tight-fat",
+      "name": "Mark 52",
+      "type": "private",
+      "createdBy": {
+        "$oid": "5e64e8a8f7a63e19e7bfc2e8"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587607129803"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "whistle-declared-scene-could",
+      "name": "Mark 50",
+      "type": "private",
+      "createdBy": {
+        "$oid": "5e64e8a8f7a63e19e7bfc2e8"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587607141578"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": "trunk-among-tales-private",
+      "name": "Mark 49",
+      "type": "private",
+      "createdBy": {
+        "$oid": "5e64e8a8f7a63e19e7bfc2e8"
+      },
+      "createdAt": {
+        "$date": {
+          "$numberLong": "1587607163421"
+        }
+      },
+      "__v": {
+        "$numberInt": "0"
+      }
+    }
+  ]
+}
