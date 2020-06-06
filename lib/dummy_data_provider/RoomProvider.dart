@@ -5,7 +5,7 @@ import 'package:chatrooms/redux/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class RoomsProvider {
-  static Future<List<Room>> rooms(BuildContext context) async {
+  static Future<List<RoomModel>> rooms(BuildContext context) async {
     final String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/json/rooms.json');
 
@@ -13,7 +13,7 @@ abstract class RoomsProvider {
     final List<dynamic> roomsJson = json['rooms'];
     print('roomsJson: $roomsJson');
 
-    final List<Room> roomsParsed = List<Room>.generate(
+    final List<RoomModel> roomsParsed = List<RoomModel>.generate(
       roomsJson.length,
       (index) => _castRoom(roomsJson[index]),
     );
@@ -21,15 +21,15 @@ abstract class RoomsProvider {
     return roomsParsed;
   }
 
-  static Room _castRoom(Map<String, dynamic> data) {
+  static RoomModel _castRoom(Map<String, dynamic> data) {
     final String createdAtRaw = data['createdAt']['\$date']['\$numberLong'];
 
-    return Room(
+    return RoomModel(
       id: data['_id'],
       name: data['name'],
       type: _castRoomType(data['type']),
       createdAt: DateTime.fromMillisecondsSinceEpoch(int.parse(createdAtRaw)),
-      createdBy: User('1', username: 'Heisenberg'),
+      createdBy: UserModel('1', username: 'Heisenberg'),
     );
   }
 

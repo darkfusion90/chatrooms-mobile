@@ -1,14 +1,14 @@
 import 'package:chatrooms/redux/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
-class Room {
+class RoomModel {
   final String id;
   final DateTime createdAt;
-  final User createdBy;
+  final UserModel createdBy;
   String name;
   RoomType type;
 
-  Room({
+  RoomModel({
     @required this.id,
     @required this.createdAt,
     @required this.createdBy,
@@ -22,3 +22,13 @@ class Room {
 }
 
 enum RoomType { private, public, unlisted }
+
+extension RoomTypeGetter on RoomType {
+  bool _matches(RoomType other) => this == other;
+
+  bool get isPrivate => _matches(RoomType.private);
+
+  bool get isPublic => _matches(RoomType.public);
+
+  bool get isUnlisted => _matches(RoomType.unlisted);
+}

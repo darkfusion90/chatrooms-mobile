@@ -1,20 +1,41 @@
-
-import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/screens/home/widgets/room_list/widgets/RoomListItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 
-class RoomListView extends StatelessWidget {
-  final List<Room> publicRooms;
-  
-  RoomListView(this.publicRooms);
-  
+import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/redux/models/room_list/room_list.dart';
+import 'package:chatrooms/screens/home/widgets/room_list/widgets/RoomListItem.dart';
+
+class RoomListView extends StatefulWidget {
+  final RoomListModel roomList;
+
+  RoomListView(this.roomList);
+
+  @override
+  _RoomListViewState createState() => _RoomListViewState();
+}
+
+class _RoomListViewState extends State<RoomListView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: publicRooms.length,
-      itemBuilder: (_, int index) => RoomListItem(publicRooms[index]),
-      separatorBuilder: (_, __) => Divider(),
+    final List<RoomModel> rooms = widget.roomList.rooms;
+    
+    return DraggableScrollbar.semicircle(
+      child: ListView.separated(
+        controller: _scrollController,
+        itemCount: rooms.length,
+        itemBuilder: (_, int index) => RoomListItem(rooms[index]),
+        separatorBuilder: (_, __) => Divider(),
+      ),
+      controller: _scrollController,
     );
   }
 }

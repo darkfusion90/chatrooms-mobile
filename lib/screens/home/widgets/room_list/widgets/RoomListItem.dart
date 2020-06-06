@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class RoomListItem extends StatelessWidget {
-  final Room room;
+  final RoomModel room;
   final DateFormat _createdAtDateFormatter = DateFormat('MMM d, yyyy');
 
   RoomListItem(this.room);

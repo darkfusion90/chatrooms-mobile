@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
-class User {
+class UserModel {
   final String id;
   String username;
 
-  User(this.id, {@required this.username}) : assert(username != null);
+  UserModel(this.id, {@required this.username}) : assert(username != null);
 }

@@ -8,9 +8,9 @@ extension AccountTypeGetter on AccountType {
   bool get isGuest => this == AccountType.guest;
 }
 
-class Account {
-  final User user;
+class AccountModel {
+  final UserModel user;
   final AccountType accountType;
 
-  Account(this.user, this.accountType);
+  AccountModel(this.user, this.accountType);
 }
