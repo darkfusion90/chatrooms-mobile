@@ -1,4 +1,6 @@
+import 'package:chatrooms/redux/models/room-membership.dart';
 import 'package:chatrooms/redux/models/user.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 
 class RoomModel {
@@ -7,6 +9,7 @@ class RoomModel {
   final UserModel createdBy;
   String name;
   RoomType type;
+  RoomMembershipModel membership;
 
   RoomModel({
     @required this.id,
@@ -14,11 +17,51 @@ class RoomModel {
     @required this.createdBy,
     @required this.name,
     @required this.type,
+    this.membership = RoomMembershipModel.undetermined,
   })  : assert(id != null),
         assert(createdAt != null),
         assert(createdBy != null),
         assert(name != null),
         assert(type != null);
+
+  factory RoomModel.fromJson(Map<String, dynamic> json) {
+    return RoomModel(
+      id: json["_id"],
+      name: json["name"],
+      type: EnumToString.fromString(RoomType.values, json["type"]),
+      createdBy: _parseCreatedBy(json["createdBy"]),
+      createdAt: DateTime.parse(json["createdAt"]),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "name": name,
+        "type": type,
+        "createdBy": createdBy.toJson(),
+        "createdAt": createdAt.toIso8601String(),
+      };
+
+  static UserModel _parseCreatedBy(dynamic createdBy) {
+    return createdBy.runtimeType == String
+        ? UserModel(createdBy, username: '')
+        : UserModel.fromJson(createdBy);
+  }
+
+  @override
+  String toString() => 'RoomModel('
+      'id: $id,'
+      'name: $name,'
+      'type: $type,'
+      'createdBy: $createdBy,'
+      'createdAt: $createdAt,'
+      ')';
+
+  @override
+  bool operator ==(other) => other is RoomModel && other.id == this.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 enum RoomType { private, public, unlisted }

@@ -12,8 +12,18 @@ final Selector<AppState, List<RoomModel>> roomsSelector =
   (RoomListModel roomList) => roomList.rooms,
 );
 
-final publicRoomsSelector =
+final Selector<AppState, List<RoomModel>> publicRoomsSelector =
     createSelector1<AppState, List<RoomModel>, List<RoomModel>>(
   roomsSelector,
   (List<RoomModel> rooms) => rooms.where((room) => room.type.isPublic),
 );
+
+RoomModel roomSelector(AppState state, String roomId) {
+  final Selector<AppState, RoomModel> _roomSelector =
+      createSelector1<AppState, RoomListModel, RoomModel>(
+    roomListSelector,
+    (RoomListModel roomList) => roomList.getById(roomId),
+  );
+
+  return _roomSelector(state);
+}

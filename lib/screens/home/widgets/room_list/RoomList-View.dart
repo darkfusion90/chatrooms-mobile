@@ -8,8 +8,9 @@ import 'package:chatrooms/screens/home/widgets/room_list/widgets/RoomListItem.da
 
 class RoomListView extends StatefulWidget {
   final RoomListModel roomList;
+  final VoidCallback refreshRoomList;
 
-  RoomListView(this.roomList);
+  RoomListView(this.roomList, this.refreshRoomList);
 
   @override
   _RoomListViewState createState() => _RoomListViewState();
@@ -26,16 +27,26 @@ class _RoomListViewState extends State<RoomListView> {
 
   @override
   Widget build(BuildContext context) {
-    final List<RoomModel> rooms = widget.roomList.rooms;
-    
-    return DraggableScrollbar.semicircle(
-      child: ListView.separated(
+    return RefreshIndicator(
+      child: DraggableScrollbar.semicircle(
+        child: ListView.separated(
+          controller: _scrollController,
+          itemCount: widget.roomList.length,
+          itemBuilder: _buildItem,
+          separatorBuilder: (_, __) => Divider(),
+        ),
         controller: _scrollController,
-        itemCount: rooms.length,
-        itemBuilder: (_, int index) => RoomListItem(rooms[index]),
-        separatorBuilder: (_, __) => Divider(),
       ),
-      controller: _scrollController,
+      onRefresh: () {
+        print('Refresh!');
+        widget.refreshRoomList();
+        return Future.delayed(Duration(seconds: 2));
+      },
     );
+  }
+
+  Widget _buildItem(BuildContext context, int index) {
+    final RoomModel room = widget.roomList[index];
+    return RoomListItem(room);
   }
 }

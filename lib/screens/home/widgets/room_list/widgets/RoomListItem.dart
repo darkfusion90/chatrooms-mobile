@@ -1,3 +1,4 @@
+import 'package:chatrooms/redux/models/room-membership.dart';
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,9 @@ class RoomListItem extends StatelessWidget {
   Widget _buildJoinRoomButton(BuildContext context) {
     return OutlineButton(
       child: Text(
-        'Join',
+        room.membership.isUndetermined
+            ? 'Undetermined'
+            : (room.membership.isMember ? 'Member' : 'Not Member'),
         style: TextStyle(color: Theme.of(context).primaryColor),
       ),
       onPressed: () => print('Requesting to join: ${room.name}'),
