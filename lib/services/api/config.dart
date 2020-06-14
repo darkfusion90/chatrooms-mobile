@@ -1,9 +1,7 @@
-import 'package:chatrooms/utils/app_utils.dart';
+import 'package:chatrooms/utils/url-provider.dart';
 
 class ApiConfig {
-  static String get rootUrl => AppUtils.isDevMode
-      ? AppDotEnv.developmentApiUrl
-      : AppDotEnv.productionApiUrl;
+  static String get rootUrl => UrlProvider.rootUrl;
 
   static String createUrl(String otherPart) => '$rootUrl/$otherPart';
 }
