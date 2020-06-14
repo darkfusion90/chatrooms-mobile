@@ -1,5 +1,6 @@
 import 'package:chatrooms/redux/models/room-membership.dart';
 import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/screens/room/Room.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +17,9 @@ class RoomListItem extends StatelessWidget {
       title: Text(room.name),
       subtitle: _buildSubtitle(),
       trailing: _buildJoinRoomButton(context),
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => Room(room)),
+      ),
     );
   }
 
