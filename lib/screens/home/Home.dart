@@ -1,4 +1,4 @@
-import 'package:chatrooms/reusable_widgets/appbars/default_appbar.dart';
+import 'package:chatrooms/reusable_widgets/appbars/default-appbar.dart';
 import 'package:chatrooms/screens/home/widgets/room_list/RoomList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
