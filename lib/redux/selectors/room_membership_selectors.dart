@@ -6,9 +6,9 @@ import 'package:chatrooms/redux/models/room-membership.dart';
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
 
-RoomMembershipModel membershipOf(AppState state, RoomModel room) {
-  final Selector<AppState, RoomMembershipModel> membershipSelector =
-      createSelector1<AppState, RoomListModel, RoomMembershipModel>(
+RoomMembership membershipOf(AppState state, RoomModel room) {
+  final Selector<AppState, RoomMembership> membershipSelector =
+      createSelector1<AppState, RoomListModel, RoomMembership>(
     roomListSelector,
     (RoomListModel roomList) => roomList.getById(room.id).membership,
   );

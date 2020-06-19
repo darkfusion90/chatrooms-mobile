@@ -15,13 +15,10 @@ class RoomList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Store<AppState>>(
       onInit: (store) => _refreshRoomListData(store, context),
-      onDidChange: _handleOnStoreChange,
       converter: (store) => store,
       builder: _buildView,
     );
   }
-
-  void _handleOnStoreChange(Store<AppState> store) {}
 
   Widget _buildView(BuildContext context, Store<AppState> store) {
     return RoomListView(

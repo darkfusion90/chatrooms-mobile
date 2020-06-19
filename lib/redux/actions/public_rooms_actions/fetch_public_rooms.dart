@@ -11,7 +11,7 @@ ThunkAction<AppState> fetchPublicRooms(BuildContext context) {
   return (Store<AppState> store) async {
     print('Async fetchPublicRooms started');
     try {
-      final List<RoomModel> rooms = await Api.apiRooms.rooms;
+      final List<RoomModel> rooms = await Api.rooms.rooms;
       print('Async fetchPublicRooms succeeded: $rooms');
       store.dispatch(FetchPublicRooms(rooms));
       store.dispatch(RoomListChangedAction());

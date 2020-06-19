@@ -1,3 +1,4 @@
+import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserModel {
@@ -17,6 +18,8 @@ class UserModel {
         '_id': id,
         'username': username,
       };
+
+  ChatUser asChatUser() => ChatUser(uid: id, name: username);
 
   bool get isDeleted => this == _deleted;
 

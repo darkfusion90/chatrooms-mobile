@@ -13,7 +13,7 @@ class UpdateRoomMembershipAction {
 }
 
 Future<void> _dispatch(Store<AppState> store, RoomModel room) async {
-  room.membership = await Api.apiRoomMembership.getMembership(room);
+  room.membership = await Api.roomMembership.getMembership(room);
   store.dispatch(UpdateRoomMembershipAction(room));
 }
 

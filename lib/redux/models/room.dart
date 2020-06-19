@@ -9,7 +9,7 @@ class RoomModel {
   final UserModel createdBy;
   String name;
   RoomType type;
-  RoomMembershipModel membership;
+  RoomMembership membership;
 
   RoomModel({
     @required this.id,
@@ -17,7 +17,7 @@ class RoomModel {
     @required this.createdBy,
     @required this.name,
     @required this.type,
-    this.membership = RoomMembershipModel.undetermined,
+    this.membership = RoomMembership.undetermined,
   })  : assert(id != null),
         assert(createdAt != null),
         assert(createdBy != null),

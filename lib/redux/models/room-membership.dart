@@ -1,25 +1,25 @@
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
-class RoomMembershipModel {
-  static const undetermined = RoomMembershipModel(null, null, null);
+class RoomMembership {
+  static const undetermined = RoomMembership(null, null, null);
 
   final String id;
   final RoomModel room;
   final RoomMembershipType type;
 
-  const RoomMembershipModel(this.id, this.room, this.type);
+  const RoomMembership(this.id, this.room, this.type);
 
-  factory RoomMembershipModel.fromJson(Map<String, dynamic> json) =>
-      RoomMembershipModel(
+  factory RoomMembership.fromJson(Map<String, dynamic> json) =>
+      RoomMembership(
         json['_id'],
         RoomModel.fromJson(json['room']),
         EnumToString.fromString(
             RoomMembershipType.values, json['membershipType']),
       );
 
-  factory RoomMembershipModel.notAMember(RoomModel room) =>
-      RoomMembershipModel(null, room, RoomMembershipType.notMember);
+  factory RoomMembership.notAMember(RoomModel room) =>
+      RoomMembership(null, room, RoomMembershipType.notMember);
 
   bool get isMember => type.isMember;
 
@@ -31,7 +31,7 @@ class RoomMembershipModel {
 
   @override
   bool operator ==(other) =>
-      other is RoomMembershipModel &&
+      other is RoomMembership &&
       other.type == this.type &&
       other.room == this.room;
 
