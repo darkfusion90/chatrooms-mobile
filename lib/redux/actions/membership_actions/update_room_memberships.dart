@@ -18,10 +18,6 @@ Future<void> _dispatch(Store<AppState> store, RoomModel room) async {
 }
 
 ThunkAction<AppState> updateRoomMemberships() {
-  print('update room membership before thunk');
-  return (Store<AppState> store) =>
-      roomsSelector(store.state).forEach((RoomModel room) {
-        print('For Each dispatch: $room');
-        _dispatch(store, room);
-      });
+  return (Store<AppState> store) => roomsSelector(store.state)
+      .forEach((RoomModel room) => _dispatch(store, room));
 }

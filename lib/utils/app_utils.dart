@@ -9,7 +9,7 @@ abstract class AppUtils {
 abstract class AppDotEnv {
   static Future<dynamic> init() async => DotEnv().load();
 
-  static String get productionApiUrl => DotEnv().env['prod_api_url'];
+  static String get productionHomeUrl => DotEnv().env['prod_home_url'];
 
-  static String get developmentApiUrl => DotEnv().env['dev_api_url'];
+  static String get developmentHomeUrl => DotEnv().env['dev_home_url'];
 }

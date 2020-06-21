@@ -3,6 +3,7 @@ import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
 import 'package:chatrooms/screens/room/Room.dart';
+import 'package:chatrooms/services/socket_io/SocketService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -17,10 +18,8 @@ class RoomListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, VoidCallback>(
-      converter: (Store<AppState> store) {
-        print('connector. room: ${activeRoomSelector(store.state)}');
-        return () => store.dispatch(SetActiveRoomAction(room));
-      },
+      converter: (Store<AppState> store) =>
+          () => store.dispatch(SetActiveRoomAction(room)),
       builder: (_, VoidCallback setActiveRoom) => _RoomListItemView(
         room: room,
         setActiveRoom: setActiveRoom,

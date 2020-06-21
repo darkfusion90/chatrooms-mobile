@@ -22,7 +22,6 @@ class RoomMessage {
         assert(createdAt != null);
 
   factory RoomMessage.fromJson(Map<String, dynamic> json) {
-    print('RoomMessage.fromJson -> $json');
     return RoomMessage(
       id: json['_id'],
       roomId: json['atRoom'],

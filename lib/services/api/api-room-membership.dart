@@ -13,8 +13,7 @@ class ApiRoomMembership {
   Future<RoomMembership> getMembership(RoomModel room) async {
     final String url =
         '${root(room.id)}/byuid/5e64e8a8f7a63e19e7bfc2e8'; //username: tony_stark
-    print('root: $_root');
-    print('url: $url');
+
     http.Response response = await http.get(url);
     if (response.statusCode == 404) {
       return RoomMembership.notAMember(room);

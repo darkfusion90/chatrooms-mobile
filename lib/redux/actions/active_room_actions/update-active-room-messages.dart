@@ -17,8 +17,7 @@ ThunkAction<AppState> updateActiveRoomMessages([SetActiveRoomAction action]) {
   return (Store<AppState> store) async {
     final RoomModel activeRoom =
         action == null ? activeRoomSelector(store.state) : action.room;
-
-    print('active room: $activeRoom');
+    
     List<RoomMessage> messages = await Api.roomMessages.getMessages(activeRoom);
 
     store.dispatch(UpdateActiveRoomMessagesAction(messages));

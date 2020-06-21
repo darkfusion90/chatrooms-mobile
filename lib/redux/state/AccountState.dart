@@ -1,36 +1,21 @@
-import 'package:chatrooms/redux/models/user.dart';
+import 'package:chatrooms/redux/models/account.dart';
 import 'package:chatrooms/redux/state/state_interface.dart';
+import 'package:flutter/cupertino.dart';
 
 class AccountState extends ReduxState {
-  final bool isRegistered;
-  final UserModel user;
+  AccountModel account;
 
-  AccountState(this.user, {this.isRegistered = false})
-      : assert(isRegistered != null);
+  AccountState({@required this.account}) : assert(account != null);
 
-  factory AccountState.init() => AccountState(null);
-
-  // Creates an instance by applying all properties of state while
-  // overriding them with the optional named arguments if provided
-  factory AccountState.apply(
-    AccountState state, {
-    UserModel user,
-    bool isRegistered,
-  }) {
-    user = user ?? state.user;
-    isRegistered = isRegistered ?? state.isRegistered;
-    return AccountState(user, isRegistered: isRegistered);
-  }
+  factory AccountState.init() =>
+      AccountState(account: AccountModel(null, null));
 
   @override
-  String toString() => 'AccountState(isRegistered: $isRegistered, user: $user)';
+  String toString() => 'AccountState(account: $account)';
 
   @override
-  bool compareState(other) =>
-      other is AccountState &&
-      other.user == this.user &&
-      other.isRegistered == this.isRegistered;
+  bool compareState(other) => other is AccountState && other.account == account;
 
   @override
-  int getHashCode() => user.hashCode ^ isRegistered.hashCode;
+  int getHashCode() => account.hashCode;
 }
