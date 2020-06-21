@@ -35,13 +35,11 @@ dependencies:
   dash_chat: ^1.1.9
 
   flutter_dotenv: ^2.1.0
-  http: ^0.12.1
+  requests: ^3.3.0
   enum_to_string: ^1.0.9
   share: ^0.6.4+3
   intl: ^0.16.1
-
-
-
+  socket_io_client: ^0.9.10
 
 dev_dependencies:
   flutter_test:
