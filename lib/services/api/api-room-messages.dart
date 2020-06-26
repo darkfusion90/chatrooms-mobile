@@ -1,6 +1,8 @@
 import 'package:chatrooms/redux/models/room-message.dart';
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/services/api/api.dart';
+import 'package:chatrooms/utils/send_message.dart';
+import 'package:requests/requests.dart';
 
 import 'api-rooms.dart';
 
@@ -21,5 +23,9 @@ class ApiRoomMessages {
       messagesJson.length,
       (index) => RoomMessage.fromJson(messagesJson[index]),
     );
+  }
+
+  Future<void> sendMessage(RoomModel room, String message) async {
+    await Requests.post(root(room), json: {'message': message});
   }
 }

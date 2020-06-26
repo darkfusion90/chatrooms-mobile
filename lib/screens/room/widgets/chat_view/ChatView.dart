@@ -1,71 +1,101 @@
-import 'package:chatrooms/connector_widgets/RoomMessagesConnector.dart';
-import 'package:chatrooms/redux/models/room-message.dart';
+import 'package:chatrooms/connector_widgets/AccountConnector.dart';
+import 'package:chatrooms/redux/models/account.dart';
 import 'package:chatrooms/redux/models/user.dart';
-import 'package:chatrooms/screens/room/widgets/room_messages_feed/RoomMessageItem.dart';
-import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:dash_chat/dash_chat.dart';
+
+import 'package:chatrooms/connector_widgets/RoomMessagesConnector.dart';
+import 'package:chatrooms/redux/models/room-message.dart';
 
 class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RoomMessagesConnector(
-      builder: (_, RoomMessagesConnectorViewModel viewModel) => _ChatView(
-        messages: viewModel.messages,
-        updateMessages: viewModel.updateMessages,
+    return AccountConnector(
+      builder: (_, AccountModel account) => RoomMessagesConnector(
+        builder: (_, RoomMessagesConnectorViewModel viewModel) => _ChatView(
+          currentUser: account.user,
+          messages: viewModel.messages,
+          updateMessages: viewModel.updateMessages,
+          sendMessage: viewModel.sendMessage,
+        ),
       ),
     );
   }
 }
 
 class _ChatView extends StatelessWidget {
+  final UserModel currentUser;
   final List<RoomMessage> messages;
   final VoidCallback updateMessages;
+  final ValueChanged<String> sendMessage;
 
-  const _ChatView({
+  _ChatView({
+    @required this.currentUser,
     @required this.messages,
     @required this.updateMessages,
+    @required this.sendMessage,
   })  : assert(messages != null),
         assert(updateMessages != null);
 
   @override
   Widget build(BuildContext context) {
     return DashChat(
-      messages: _chatMessages,
-      user: _currentUser,
+      messages: messages.map((RoomMessage e) => fromRoomMessage(e)).toList(),
+      user: fromUser(currentUser),
       dateFormat: DateFormat('MMM dd, yyyy'),
       timeFormat: DateFormat('HH:mm'),
       inputDecoration:
           InputDecoration.collapsed(hintText: 'Write a message here...'),
       sendOnEnter: true,
-      onSend: (ChatMessage message) => print('on send: ${message.text}'),
+      onSend: (ChatMessage message) {
+        print('on send: ${message.text}');
+        sendMessage(message.text);
+      },
       shouldShowLoadEarlier: true,
       onLoadEarlier: updateMessages,
       showLoadEarlierWidget: _buildLoadMore,
       showInputCursor: true,
-      messageBuilder: (ChatMessage message) {
-        return RoomMessageItem(
-            message: RoomMessage(
-          id: message.id,
-          roomId: '',
-          author: UserModel('ss', username: 'Micheal'),
-          createdAt: message.createdAt,
-          data: message.text,
-        ));
-      },
+      chatFooterBuilder: () => _buildChatFooter(context),
     );
   }
 
   Widget _buildLoadMore() {
     return Container(
-        decoration: BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-        padding: EdgeInsets.all(3),
-        child: Icon(Icons.refresh, color: CupertinoColors.lightBackgroundGray));
+      decoration: BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+      padding: EdgeInsets.all(3),
+      child: Icon(Icons.refresh, color: CupertinoColors.lightBackgroundGray),
+    );
   }
 
-  ChatUser get _currentUser =>
-      ChatUser(uid: '5e64e8a8f7a63e19e7bfc2e8', name: 'tony_stark');
+  Widget _buildChatFooter(BuildContext context) {
+    return messages.isEmpty ? _buildNoMessagesInfo(context) : Container();
+  }
 
-  List<ChatMessage> get _chatMessages =>
-      messages.map((RoomMessage msg) => msg.asChatMessage()).toList();
+  Widget _buildNoMessagesInfo(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: 1,
+      child: Container(
+        color: Theme.of(context).accentColor,
+        alignment: Alignment.center,
+        child: Text(
+          "This room doesn't have any messages yet",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
+ChatUser fromUser(UserModel user) {
+  return ChatUser(uid: user.id, name: user.username);
+}
+
+ChatMessage fromRoomMessage(RoomMessage message) {
+  return ChatMessage(
+    id: message.id,
+    text: message.data,
+    user: fromUser(message.author),
+    createdAt: message.createdAt,
+  );
 }

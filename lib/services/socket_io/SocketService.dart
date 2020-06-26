@@ -1,3 +1,4 @@
+import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/services/socket_io/BaseEventEmitter.dart';
 import 'package:chatrooms/services/socket_io/SocketEvents.dart';
 import 'package:chatrooms/utils/url-provider.dart';
@@ -11,6 +12,7 @@ class SocketService {
 
   _SocketServiceEventHandlers _eventHandlers;
   _RoomSocketService room;
+  _MessageSocketService message;
   Io.Socket _socket;
 
   factory SocketService() {
@@ -25,9 +27,14 @@ class SocketService {
     });
     _eventHandlers = _SocketServiceEventHandlers(_socket);
     room = _RoomSocketService(_socket);
+    message = _MessageSocketService(_socket);
 
     onConnect((_) => print('socket connected'));
     onConnectError((err) => print('socket connect error: $err'));
+    _eventHandlers.add('event:message', (data) {
+      print('Message event: $data');
+      print('data type: ${data[1].runtimeType}');
+    });
   }
 
   void connect() {
@@ -39,6 +46,25 @@ class SocketService {
 
   void onConnect(EventHandler handler) =>
       _eventHandlers.add('connect', handler);
+
+  void onNewMessage(EventHandler handler) {
+    _eventHandlers.add(
+      message.events.mainEvent,
+      (data) => _onNewMessageFilter(data, handler),
+    );
+  }
+
+  void sendMessage(RoomModel room, String data) =>
+      message.sendMessage(room, data);
+
+  void _onNewMessageFilter(dynamic data, EventHandler handler) {
+    if (data is! Iterable) return;
+
+    final String subEvent = data[0];
+    if (subEvent == message.events.sendMessage) {
+      handler(data[1]);
+    }
+  }
 }
 
 class _SocketServiceEventHandlers {
@@ -56,17 +82,36 @@ class _SocketServiceEventHandlers {
       _socket.off(event, handler);
 }
 
-class _RoomSocketService {
-  final Io.Socket _socket;
-  static const RoomSocketEvents _events = SocketEvents.room;
+class _RoomSocketService extends SubSocketService {
+  final Io.Socket socket;
+  final RoomSocketEvents events = SocketEvents.room;
 
-  _RoomSocketService(this._socket);
+  _RoomSocketService(this.socket) : super(socket);
 
   void joinRoom(String roomId) {
-    _emit([_events.connectToRoom, roomId]);
+    emit([events.connectToRoom, roomId]);
   }
+}
 
-  void _emit([dynamic data]) {
-    BaseEventEmitter.instance.emit(_socket, _events.mainEvent, data);
+class _MessageSocketService extends SubSocketService {
+  final Io.Socket socket;
+  final MessageSocketEvents events = SocketEvents.message;
+
+  _MessageSocketService(this.socket) : super(socket);
+
+  void sendMessage(RoomModel room, String message) {
+    emit([events.sendMessage, room.id, message]);
+  }
+}
+
+abstract class SubSocketService {
+  final Io.Socket socket;
+
+  BaseSocketEvents get events;
+
+  SubSocketService(this.socket);
+
+  void emit([dynamic data]) {
+    BaseEventEmitter.instance.emit(socket, events.mainEvent, data);
   }
 }

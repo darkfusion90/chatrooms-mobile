@@ -2,11 +2,11 @@ import 'package:chatrooms/redux/actions/public_rooms_actions/room_list_changed.d
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
 import 'package:chatrooms/services/api/api.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:redux/src/store.dart';
+
+import 'package:redux/src/store.dart' show Store;
 import 'package:redux_thunk/redux_thunk.dart';
 
-ThunkAction<AppState> fetchPublicRooms(BuildContext context) {
+ThunkAction<AppState> fetchPublicRooms() {
   print('ThunkAction dispatch: fetchPublicRooms');
   return (Store<AppState> store) async {
     print('Async fetchPublicRooms started');

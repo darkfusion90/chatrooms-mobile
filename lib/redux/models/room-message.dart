@@ -31,13 +31,6 @@ class RoomMessage {
     );
   }
 
-  ChatMessage asChatMessage() => ChatMessage(
-        id: id,
-        text: data,
-        user: author.asChatUser(),
-        createdAt: createdAt,
-      );
-
   @override
   bool operator ==(other) =>
       other is RoomMessage &&

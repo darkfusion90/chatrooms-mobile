@@ -3,7 +3,6 @@ import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
 import 'package:chatrooms/screens/room/Room.dart';
-import 'package:chatrooms/services/socket_io/SocketService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -67,7 +66,6 @@ class _RoomListItemView extends StatelessWidget {
 
   void _handleOnItemTap(BuildContext context) {
     setActiveRoom();
-    print('to set: $room');
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => Room(room)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => Room()));
   }
 }

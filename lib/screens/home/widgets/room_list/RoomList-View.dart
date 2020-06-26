@@ -19,6 +19,8 @@ class RoomListView extends StatefulWidget {
 class _RoomListViewState extends State<RoomListView> {
   final ScrollController _scrollController = ScrollController();
 
+  List<RoomModel> get _roomList => widget.roomList.filtered;
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -31,7 +33,7 @@ class _RoomListViewState extends State<RoomListView> {
       child: DraggableScrollbar.semicircle(
         child: ListView.separated(
           controller: _scrollController,
-          itemCount: widget.roomList.length,
+          itemCount: _roomList.length,
           itemBuilder: _buildItem,
           separatorBuilder: (_, __) => Divider(),
         ),
@@ -46,7 +48,7 @@ class _RoomListViewState extends State<RoomListView> {
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    final RoomModel room = widget.roomList[index];
+    final RoomModel room = _roomList[index];
     return RoomListItem(room);
   }
 }

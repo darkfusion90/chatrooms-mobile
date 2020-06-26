@@ -1,12 +1,14 @@
 import 'package:chatrooms/redux/actions/active_room_actions/update-active-room-messages.dart';
 import 'package:chatrooms/redux/models/room-message.dart';
+import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
+import 'package:chatrooms/services/socket_io/SocketService.dart';
+import 'package:chatrooms/shared/typedefs/typedef_param_widget_builder.dart';
+import 'package:chatrooms/utils/send_message.dart' as utils;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-
-typedef ParameterizedWidgetBuilder<T> = Widget Function(BuildContext, T);
 
 class RoomMessagesConnector extends StatelessWidget {
   final ParameterizedWidgetBuilder<RoomMessagesConnectorViewModel> builder;
@@ -17,6 +19,9 @@ class RoomMessagesConnector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Store<AppState>>(
+      onInit: (Store<AppState> store) {
+        SocketService().onNewMessage((_) => _updateMessages(store));
+      },
       converter: (store) => store,
       builder: (_, store) => builder(context, _viewModel(store)),
     );
@@ -27,18 +32,29 @@ class RoomMessagesConnector extends StatelessWidget {
 
     return RoomMessagesConnectorViewModel(
       messages,
-      () => updateMessages(store),
+      () => _updateMessages(store),
+      (String message) => _sendMessage(store, message),
     );
   }
- 
-  Future<void> updateMessages(Store<AppState> store) async {
+
+  void _updateMessages(Store<AppState> store) {
     store.dispatch(updateActiveRoomMessages());
+  }
+
+  void _sendMessage(Store<AppState> store, String message) {
+    final RoomModel room = activeRoomSelector(store.state);
+    utils.sendMessage(room, message);
   }
 }
 
 class RoomMessagesConnectorViewModel {
   final List<RoomMessage> messages;
   final VoidCallback updateMessages;
+  final ValueChanged<String> sendMessage;
 
-  RoomMessagesConnectorViewModel(this.messages, this.updateMessages);
+  RoomMessagesConnectorViewModel(
+    this.messages,
+    this.updateMessages,
+    this.sendMessage,
+  );
 }

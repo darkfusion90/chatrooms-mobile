@@ -1,4 +1,5 @@
-import 'package:chatrooms/redux/actions/membership_actions/update_room_memberships.dart';
+import 'package:chatrooms/redux/actions/room_list_actions/SetRoomListFilter.dart';
+import 'package:chatrooms/redux/models/room_list/room_list_filter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -14,7 +15,7 @@ class RoomList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Store<AppState>>(
-      onInit: (store) => _refreshRoomListData(store, context),
+      onInit: _updateRoomList,
       converter: (store) => store,
       builder: _buildView,
     );
@@ -23,10 +24,10 @@ class RoomList extends StatelessWidget {
   Widget _buildView(BuildContext context, Store<AppState> store) {
     return RoomListView(
       roomListSelector(store.state),
-      () => _refreshRoomListData(store, context),
+      () => _updateRoomList(store),
     );
   }
 
-  void _refreshRoomListData(Store<AppState> store, BuildContext context) =>
-      store.dispatch(fetchPublicRooms(context));
+  void _updateRoomList(Store<AppState> store) =>
+      store.dispatch(fetchPublicRooms());
 }
