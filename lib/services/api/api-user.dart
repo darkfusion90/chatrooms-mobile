@@ -14,9 +14,14 @@ class ApiUser {
     return AccountModel.fromJson(await Api.getJson(_root));
   }
 
-  Future<Response> login() => Requests.get(_loginRoot);
+  Future<Response> login(String username, String password) {
+    return Requests.post(
+      _loginRoot,
+      body: {'username': username, 'password': password},
+    );
+  }
 
-  Future<Response> logout() => Requests.get(_logoutRoot);
+  Future<Response> logout() => Requests.post(_logoutRoot);
 
   Future<Response> register() => Requests.get(_registerRoot);
 }
