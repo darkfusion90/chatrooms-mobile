@@ -1,6 +1,6 @@
 import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
 import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/reusable_widgets/appbars/room_appbar/room-appbar.dart';
+import 'package:chatrooms/widgets/appbars/room_appbar/room-appbar.dart';
 import 'package:chatrooms/screens/room/widgets/chat_view/ChatView.dart';
 import 'package:chatrooms/services/socket_io/SocketService.dart';
 
