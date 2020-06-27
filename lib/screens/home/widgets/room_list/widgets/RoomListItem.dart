@@ -1,13 +1,12 @@
-import 'package:chatrooms/redux/actions/active_room_actions/set-active-room.dart';
-import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
-import 'package:chatrooms/redux/state/AppState.dart';
-import 'package:chatrooms/screens/room/Room.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:chatrooms/router/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
+
+import 'package:chatrooms/redux/actions/active_room_actions/set-active-room.dart';
+import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/redux/state/AppState.dart';
 
 class RoomListItem extends StatelessWidget {
   final RoomModel room;
@@ -66,6 +65,6 @@ class _RoomListItemView extends StatelessWidget {
 
   void _handleOnItemTap(BuildContext context) {
     setActiveRoom();
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => Room()));
+    Navigator.of(context).pushNamed(RouteNames.room);
   }
 }
