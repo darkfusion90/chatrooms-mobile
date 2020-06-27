@@ -1,10 +1,9 @@
-import 'package:chatrooms/connector_widgets/AccountConnector.dart';
-import 'package:chatrooms/redux/models/account.dart';
-import 'package:chatrooms/redux/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dash_chat/dash_chat.dart';
 
+import 'package:chatrooms/connector_widgets/AccountConnector.dart';
+import 'package:chatrooms/redux/models/user.dart';
 import 'package:chatrooms/connector_widgets/RoomMessagesConnector.dart';
 import 'package:chatrooms/redux/models/room-message.dart';
 
@@ -12,12 +11,12 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AccountConnector(
-      builder: (_, AccountModel account) => RoomMessagesConnector(
-        builder: (_, RoomMessagesConnectorViewModel viewModel) => _ChatView(
-          currentUser: account.user,
-          messages: viewModel.messages,
-          updateMessages: viewModel.updateMessages,
-          sendMessage: viewModel.sendMessage,
+      builder: (_, accountViewModel) => RoomMessagesConnector(
+        builder: (_, messagesViewModel) => _ChatView(
+          currentUser: accountViewModel.account.user,
+          messages: messagesViewModel.messages,
+          updateMessages: messagesViewModel.updateMessages,
+          sendMessage: messagesViewModel.sendMessage,
         ),
       ),
     );
