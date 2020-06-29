@@ -9,9 +9,8 @@ import 'package:requests/requests.dart';
 ThunkAction<AppState> login(LoginInfo info) {
   return (Store<AppState> store) async {
     print('username: ${info.username}, password: ${info.password}');
-    final Response response =
-        await Api.user.login(info.username, info.password);
-    
+    final Response response = await Api.user.login(info);
+
     print('Response: ${response.statusCode}\n${response.json()}');
     store.dispatch(updateUserAccount());
   };
