@@ -8,10 +8,7 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SignInAppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 120.0),
-        child: SignInForm(),
-      ),
+      body: SignInForm(),
       resizeToAvoidBottomPadding: false,
     );
   }
