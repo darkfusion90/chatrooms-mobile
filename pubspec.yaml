@@ -33,6 +33,7 @@ dependencies:
 
   draggable_scrollbar: ^0.0.4
   dash_chat: ^1.1.9
+  flushbar: ^1.10.4
 
   flutter_dotenv: ^2.1.0
   requests: ^3.3.0
