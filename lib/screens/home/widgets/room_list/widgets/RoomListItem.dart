@@ -1,12 +1,11 @@
-import 'package:chatrooms/router/route_names.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
-import 'package:redux/redux.dart';
 
-import 'package:chatrooms/redux/actions/active_room_actions/set-active-room.dart';
 import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/redux/state/AppState.dart';
+import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
+import 'package:chatrooms/router/route_names.dart';
+
+import 'RoomListItemActions.dart';
 
 class RoomListItem extends StatelessWidget {
   final RoomModel room;
@@ -15,12 +14,10 @@ class RoomListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, VoidCallback>(
-      converter: (Store<AppState> store) =>
-          () => store.dispatch(SetActiveRoomAction(room)),
-      builder: (_, VoidCallback setActiveRoom) => _RoomListItemView(
+    return ActiveRoomConnector(
+      builder: (_, viewModel) => _RoomListItemView(
         room: room,
-        setActiveRoom: setActiveRoom,
+        setActiveRoom: () => viewModel.setActiveRoom(room),
       ),
     );
   }
@@ -39,25 +36,13 @@ class _RoomListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(room.name),
-      subtitle: _buildSubtitle(),
-      trailing: _buildJoinRoomButton(context),
+      subtitle: _subtitle,
+      trailing: RoomListItemActions(room: room),
       onTap: () => _handleOnItemTap(context),
     );
   }
 
-  Widget _buildJoinRoomButton(BuildContext context) {
-    return OutlineButton(
-      child: Text(
-        room.membership.isUndetermined
-            ? 'Undetermined'
-            : (room.membership.isMember ? 'Member' : 'Not Member'),
-        style: TextStyle(color: Theme.of(context).primaryColor),
-      ),
-      onPressed: () => print('Requesting to join: ${room.name}'),
-    );
-  }
-
-  Widget _buildSubtitle() {
+  Widget get _subtitle {
     final String createdAt = _createdAtDateFormatter.format(room.createdAt);
 
     return Text('Created: $createdAt');
