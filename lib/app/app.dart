@@ -48,7 +48,6 @@ class _ReduxConnector extends StatelessWidget {
 
   void _setUserId(Store<AppState> store) {
     final String userId = userIdSelector(store.state);
-    print('on did change: $userId');
     if (userId != null) {
       BaseEventEmitter.setUserId(userId: userId);
     }

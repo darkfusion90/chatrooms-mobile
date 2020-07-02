@@ -10,7 +10,6 @@ dynamic _middleware(
   SetActiveRoomAction action,
   NextDispatcher next,
 ) {
-  print('setActiveRoomAction detected. Room: ${action.room}');
   store.dispatch(updateActiveRoomMembers(action));
   store.dispatch(updateActiveRoomMessages(action));
   next(action);
