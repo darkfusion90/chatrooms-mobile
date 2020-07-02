@@ -1,3 +1,4 @@
+import 'package:chatrooms/router/redirections.dart';
 import 'package:chatrooms/widgets/dialogs/confirmation_dialog.dart';
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogManager.dart';
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogNames.dart';
@@ -27,6 +28,9 @@ class _DrawerItemSignOutState extends State<DrawerItemSignOut> {
     ConfirmationStatus status =
         await DialogManager.of(context).show(DialogName.signOutConfirmation);
 
-    if (status.isAccepted) widget.onSignOut();
+    if (status.isAccepted) {
+      widget.onSignOut();
+      CompleteRedirect.of(context).toHome();
+    }
   }
 }
