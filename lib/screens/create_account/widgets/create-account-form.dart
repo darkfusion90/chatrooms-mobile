@@ -1,3 +1,4 @@
+import 'package:chatrooms/router/redirections.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatrooms/connector_widgets/AccountConnector.dart';
@@ -28,8 +29,7 @@ class _CreateAccountFormView extends StatelessWidget {
       actionType: AccountActionType.createAccount,
       onFormSubmit: (LoginInfo info) {
         onCreateAccount(info);
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(RouteNames.home, (route) => false);
+        CompleteRedirect.of(context).toHome();
       },
       extraAction: PrimaryColoredTextFlatButton(
         text: 'Sign In',
