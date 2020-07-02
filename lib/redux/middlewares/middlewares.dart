@@ -1,3 +1,4 @@
+import 'package:chatrooms/redux/middlewares/on-account-changed.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
@@ -9,4 +10,5 @@ final List<Middleware<AppState>> storeMiddlewares = [
   thunkMiddleware,
   onRoomListChangedMiddleware,
   onActiveRoomChangedMiddleware,
+  onAccountChangedMiddleware,
 ];
