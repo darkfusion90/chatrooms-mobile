@@ -10,16 +10,32 @@ class RoomMembership {
 
   const RoomMembership(this.id, this.room, this.type);
 
-  factory RoomMembership.fromJson(Map<String, dynamic> json) =>
+  factory RoomMembership.fromJson(
+    Map<String, dynamic> json, {
+    String id,
+    RoomModel room,
+    RoomMembershipType type,
+  }) =>
       RoomMembership(
-        json['_id'],
-        RoomModel.fromJson(json['room']),
-        EnumToString.fromString(
-            RoomMembershipType.values, json['membershipType']),
+        id ?? _idFromJson(json),
+        room ?? _roomFromJson(json),
+        type ?? _membershipTypeFromJson(json),
       );
 
   factory RoomMembership.notAMember(RoomModel room) =>
       RoomMembership(null, room, RoomMembershipType.notMember);
+
+  static RoomMembershipType _membershipTypeFromJson(
+          Map<String, dynamic> json) =>
+      EnumToString.fromString(
+        RoomMembershipType.values,
+        json['membershipType'],
+      );
+
+  static RoomModel _roomFromJson(Map<String, dynamic> json) =>
+      RoomModel.fromJson(json['room']);
+
+  static String _idFromJson(Map<String, dynamic> json) => json['_id'];
 
   bool get isMember => type.isMember;
 
