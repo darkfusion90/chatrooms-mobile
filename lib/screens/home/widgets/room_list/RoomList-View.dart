@@ -40,7 +40,6 @@ class _RoomListViewState extends State<RoomListView> {
         controller: _scrollController,
       ),
       onRefresh: () {
-        print('Refresh!');
         widget.refreshRoomList();
         return Future.delayed(Duration(seconds: 2));
       },
