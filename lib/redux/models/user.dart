@@ -28,4 +28,7 @@ class UserModel {
 
   @override
   int get hashCode => id.hashCode ^ username.hashCode;
+
+  @override
+  String toString() => 'UserModel(id: $id, username: $username)';
 }

@@ -39,4 +39,8 @@ class AccountModel {
 
   @override
   int get hashCode => user.hashCode ^ accountType.hashCode;
+
+  @override
+  String toString() =>
+      'AccountModel(user: $user,\naccountType: $accountType\n)';
 }
