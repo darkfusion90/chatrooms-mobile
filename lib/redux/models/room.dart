@@ -48,6 +48,14 @@ class RoomModel {
         : UserModel.fromJson(createdBy);
   }
 
+  bool get isMember => membership.isMember;
+
+  bool get isParticipant => membership.isParticipant;
+
+  bool get isAdmin => membership.isAdmin;
+
+  bool get isMembershipUndetermined => membership.isUndetermined;
+
   @override
   String toString() => 'RoomModel('
       'id: $id,'
