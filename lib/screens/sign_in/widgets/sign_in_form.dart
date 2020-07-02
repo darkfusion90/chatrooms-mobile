@@ -1,3 +1,4 @@
+import 'package:chatrooms/router/redirections.dart';
 import 'package:chatrooms/widgets/PrimaryColoredTextFlatButton.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
@@ -31,7 +32,10 @@ class _SignInForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AccountActionForm(
-      onFormSubmit: onSignIn,
+      onFormSubmit: (LoginInfo info) {
+        onSignIn(info);
+        CompleteRedirect.of(context).toHome();
+      },
       actionType: AccountActionType.login,
       extraAction: _createAccountButton(context),
     );
