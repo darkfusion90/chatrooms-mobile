@@ -37,15 +37,31 @@ class _RoomListItemView extends StatelessWidget {
     return ListTile(
       title: Text(room.name),
       subtitle: _subtitle,
+      isThreeLine: true,
       trailing: RoomListItemActions(room: room),
       onTap: () => _handleOnItemTap(context),
     );
   }
 
   Widget get _subtitle {
+    final String createdBy = room.createdBy.username;
     final String createdAt = _createdAtDateFormatter.format(room.createdAt);
 
-    return Text('Created: $createdAt');
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Icon(Icons.edit, size: 16,),
+            SizedBox(width: 3),
+            Text(createdBy ?? '...'),
+          ],
+        ),
+        SizedBox(height: 10),
+        Text('Created: $createdAt'),
+      ],
+    );
   }
 
   void _handleOnItemTap(BuildContext context) {
