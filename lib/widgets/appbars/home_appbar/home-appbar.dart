@@ -1,3 +1,4 @@
+import 'package:chatrooms/widgets/appbars/home_appbar/home_appbar_menu_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -9,6 +10,17 @@ import 'package:chatrooms/redux/state/AppState.dart';
 import 'package:chatrooms/widgets/search-button.dart';
 import 'package:chatrooms/widgets/appbars/search-appbar.dart';
 import 'package:chatrooms/widgets/appbars/appbar-interface.dart';
+
+enum AppBarMode { search, normal }
+
+extension _ on AppBarMode {
+  AppBarMode get toggle =>
+      this == AppBarMode.normal ? AppBarMode.search : AppBarMode.normal;
+
+  bool get isNormal => this == AppBarMode.normal;
+
+  bool get isSearch => this == AppBarMode.search;
+}
 
 class HomeAppBar extends BaseAppBar {
   @override
@@ -59,39 +71,63 @@ class _AppBarView extends StatelessWidget {
 
   bool get _shouldPop => appBarMode.isNormal;
 
+  WillPopCallback get _onWillPop => () => Future.value(_shouldPop);
+
   void _resetRoomListFilter() => setRoomListFilter(RoomListFilter());
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: appBarMode.isNormal ? _normalAppBar : _searchAppBar,
-      onWillPop: () => Future.value(_shouldPop),
+      onWillPop: _onWillPop,
     );
   }
 
-  Widget get _searchAppBar => SearchAppBar(
-        onSearch: (searchText) =>
-            setRoomListFilter(RoomListFilter(query: searchText.trim())),
+  Widget get _searchAppBar => _AppBarSearchMode(
+        setRoomListFilter: setRoomListFilter,
         onWillPop: () {
           _resetRoomListFilter();
           toggleAppBarMode();
         },
-        shouldSearchOnChange: true,
       );
 
-  Widget get _normalAppBar => AppBar(
-        title: Text('ChatRooms'),
-        actions: <Widget>[SearchButton(onSearch: toggleAppBarMode)],
-      );
+  Widget get _normalAppBar =>
+      _AppBarNormalMode(onToggleAppBarMode: toggleAppBarMode);
 }
 
-enum AppBarMode { search, normal }
+class _AppBarSearchMode extends StatelessWidget {
+  final ValueChanged<RoomListFilter> setRoomListFilter;
+  final VoidCallback onWillPop;
 
-extension _ on AppBarMode {
-  AppBarMode get toggle =>
-      this == AppBarMode.normal ? AppBarMode.search : AppBarMode.normal;
+  const _AppBarSearchMode({
+    @required this.setRoomListFilter,
+    @required this.onWillPop,
+  })  : assert(setRoomListFilter != null),
+        assert(onWillPop != null);
 
-  bool get isNormal => this == AppBarMode.normal;
+  @override
+  Widget build(BuildContext context) {
+    return SearchAppBar(
+      onSearch: (searchText) =>
+          setRoomListFilter(RoomListFilter(query: searchText.trim())),
+      onWillPop: onWillPop,
+      shouldSearchOnChange: true,
+    );
+  }
+}
 
-  bool get isSearch => this == AppBarMode.search;
+class _AppBarNormalMode extends StatelessWidget {
+  final VoidCallback onToggleAppBarMode;
+
+  const _AppBarNormalMode({@required this.onToggleAppBarMode})
+      : assert(onToggleAppBarMode != null);
+
+  @override
+  Widget build(BuildContext context) => AppBar(
+        title: Text('ChatRooms'),
+        actions: <Widget>[
+          SearchButton(onSearch: onToggleAppBarMode),
+          HomeAppbarMenuButton(),
+        ],
+      );
 }
