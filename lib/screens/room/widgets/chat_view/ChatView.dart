@@ -75,11 +75,12 @@ class _ChatView extends StatelessWidget {
     return FractionallySizedBox(
       widthFactor: 1,
       child: Container(
-        color: Theme.of(context).accentColor,
+        height: 40,
+        color: Theme.of(context).primaryColor,
         alignment: Alignment.center,
         child: Text(
           "This room doesn't have any messages yet",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
     );
