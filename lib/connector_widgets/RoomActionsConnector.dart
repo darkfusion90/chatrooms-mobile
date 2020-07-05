@@ -7,15 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+void _doNothing() {}
+
 class RoomActionsConnector extends StatelessWidget {
   final RoomModel room;
   final ParameterizedWidgetBuilder<RoomActionsViewModel> builder;
 
   const RoomActionsConnector({
-    @required this.room,
+    this.room,
     @required this.builder,
-  })  : assert(room != null),
-        assert(builder != null);
+  }) : assert(builder != null);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +26,16 @@ class RoomActionsConnector extends StatelessWidget {
     );
   }
 
-  RoomActionsViewModel _viewModel(Store<AppState> store) =>
-      RoomActionsViewModel(
-        this.room,
-        () => store.dispatch(joinRoom(this.room)),
-        () => store.dispatch(leaveRoom(this.room)),
-      );
+  RoomActionsViewModel _viewModel(Store<AppState> store) {
+    final VoidCallback onJoinRoom = () => store.dispatch(joinRoom(this.room));
+    final VoidCallback onLeaveRoom = () => store.dispatch(leaveRoom(this.room));
+
+    return RoomActionsViewModel(
+      this.room,
+      room == null ? _doNothing : onJoinRoom,
+      room == null ? _doNothing : onLeaveRoom,
+    );
+  }
 }
 
 class RoomActionsViewModel {
