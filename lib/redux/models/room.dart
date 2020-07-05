@@ -47,9 +47,11 @@ class RoomModel {
         ? UserModel(createdBy, username: '')
         : UserModel.fromJson(createdBy);
   }
-
+  
   bool get isMember => membership.isMember;
 
+  bool get isNotMember => membership.isNotMember;
+  
   bool get isParticipant => membership.isParticipant;
 
   bool get isAdmin => membership.isAdmin;
