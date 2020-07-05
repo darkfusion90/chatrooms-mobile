@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+
+import 'package:chatrooms/shared/enums/enum_confirmation_status.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   static const String _defaultAcceptText = 'Confirm';
@@ -33,12 +36,4 @@ class ConfirmationDialog extends StatelessWidget {
         child: Text(rejectionText),
         onPressed: () => Navigator.of(context).pop(ConfirmationStatus.rejected),
       );
-}
-
-enum ConfirmationStatus { accepted, rejected }
-
-extension BoolIsGetters on ConfirmationStatus {
-  bool get isAccepted => this == ConfirmationStatus.accepted;
-
-  bool get isRejected => this == ConfirmationStatus.rejected;
 }

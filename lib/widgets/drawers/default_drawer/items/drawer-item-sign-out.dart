@@ -1,5 +1,5 @@
 import 'package:chatrooms/router/redirections.dart';
-import 'package:chatrooms/widgets/dialogs/confirmation_dialog.dart';
+import 'package:chatrooms/shared/enums/enum_confirmation_status.dart';
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogManager.dart';
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogNames.dart';
 import 'package:flutter/material.dart';
