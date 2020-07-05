@@ -37,11 +37,13 @@ class RoomMembership {
 
   static String _idFromJson(Map<String, dynamic> json) => json['_id'];
 
-  bool get isMember => type.isMember;
+  bool get isMember => !isUndetermined && type.isMember;
 
-  bool get isAdmin => type.isAdmin;
+  bool get isNotMember => !isUndetermined && type.isNotMember;
+  
+    bool get isAdmin => !isUndetermined && type.isAdmin;
 
-  bool get isParticipant => type.isParticipant;
+  bool get isParticipant => !isUndetermined && type.isParticipant;
 
   bool get isUndetermined => this == undetermined;
 
