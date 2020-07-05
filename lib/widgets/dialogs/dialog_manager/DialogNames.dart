@@ -1,1 +1,1 @@
-enum DialogName { signOutConfirmation }
+enum DialogName { signOutConfirmation, joinRoom }

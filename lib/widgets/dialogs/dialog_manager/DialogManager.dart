@@ -1,3 +1,4 @@
+import 'package:chatrooms/widgets/dialogs/join_room_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatrooms/widgets/dialogs/signout_confirmation_dialog.dart';
@@ -18,12 +19,19 @@ class DialogManager {
           context: context,
           builder: _signOutConfirmation,
         );
+      case DialogName.joinRoom:
+        return showDialog<T>(
+          context: context,
+          builder: _joinRoom,
+        );
       default:
         throw UnknownDialogException(name);
     }
   }
 
   WidgetBuilder get _signOutConfirmation => (_) => SignOutConfirmationDialog();
+
+  WidgetBuilder get _joinRoom => (_) => JoinRoomDialog();
 }
 
 class UnknownDialogException implements Exception {
