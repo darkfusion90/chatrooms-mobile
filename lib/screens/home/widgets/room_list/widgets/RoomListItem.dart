@@ -53,7 +53,10 @@ class _RoomListItemView extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Icon(Icons.edit, size: 16,),
+            Icon(
+              Icons.edit,
+              size: 16,
+            ),
             SizedBox(width: 3),
             Text(createdBy ?? '...'),
           ],
