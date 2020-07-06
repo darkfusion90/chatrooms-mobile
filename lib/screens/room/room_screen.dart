@@ -1,5 +1,7 @@
+import 'package:chatrooms/shared/controllers/confirmation_status_controller.dart';
 import 'package:chatrooms/widgets/bottom_sheets/bottom-sheets-manager.dart';
 import 'package:chatrooms/shared/enums/enum_confirmation_status.dart';
+import 'package:chatrooms/widgets/prior_confirmation_builder.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
@@ -21,78 +23,57 @@ class Room extends StatelessWidget {
   }
 }
 
-class _RoomView extends StatefulWidget {
+class _RoomView extends StatelessWidget {
   final RoomModel room;
   final VoidCallback resetActiveRoom;
+  final ConfirmationStatusController controller =
+      ConfirmationStatusController();
 
-  const _RoomView({
+  _RoomView({
     @required this.room,
     @required this.resetActiveRoom,
   });
 
   @override
-  State<StatefulWidget> createState() => _RoomViewState();
-}
-
-class _RoomViewState extends State<_RoomView> {
-  ConfirmationStatus status;
-  bool didShowMembershipAvailRequest;
-
-  @override
-  void initState() {
-    super.initState();
-    didShowMembershipAvailRequest = false;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    _handleNoRoomMembership();
-    return Scaffold(
-      appBar: RoomAppBar(widget.room),
-      body: _body,
+    return PriorConfirmationWidget(
+      controller: controller,
+      onShowConfirmation: () => _onShowConfirmation(context),
+      shouldShowConfirmation: room != null && room.isNotMember,
+      builder: (BuildContext _context, ConfirmationStatus status) {
+        _ensureConfirmationAccepted(_context, status);
+        return Scaffold(
+          appBar: RoomAppBar(room),
+          body: _body,
+        );
+      },
     );
   }
 
-  void _handleNoRoomMembership() {
-    if (widget.room.isMember) return;
+  Widget get _body {
+    if (room == null || room.isMembershipUndetermined || room.isNotMember) {
+      return LoadingIndicator();
+    }
+    return RoomModeViewMember();
+  }
 
-    if (status == null && !didShowMembershipAvailRequest) {
-      setState(() {
-        didShowMembershipAvailRequest = true;
-      });
-      _showMembershipAvailRequest();
-    } else if (status.isRejected) {
-      // Since the user is still not a member and we cannot bombard them with the modal every time,
-      // it is safe to not show the room at all and simply pop back to the previous route
-      _postFrame((_) {
-        Navigator.of(context).pop();
-      });
+  void _ensureConfirmationAccepted(
+    BuildContext context,
+    ConfirmationStatus status,
+  ) {
+    if (status != null && status.isRejected) {
+      _postFrame(Navigator.of(context).pop);
     }
   }
 
-  void _showMembershipAvailRequest() {
+  void _onShowConfirmation(BuildContext context) {
     _postFrame((_) async {
-      final ConfirmationStatus status = await BottomSheetsManager.of(
-        context,
-      ).showAvailRoomMembership(widget.room);
-
-      setState(() {
-        this.status = status;
-      });
+      controller.value =
+          await BottomSheetsManager.of(context).showAvailRoomMembership(room);
     });
   }
 
   void _postFrame(FrameCallback callback) {
     SchedulerBinding.instance.addPostFrameCallback(callback);
-  }
-
-  Widget get _body {
-    if (widget.room == null ||
-        widget.room.isMembershipUndetermined ||
-        widget.room.isNotMember) {
-      return LoadingIndicator();
-    }
-
-    return RoomModeViewMember();
   }
 }
