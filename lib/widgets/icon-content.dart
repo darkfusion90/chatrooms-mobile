@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class IconContent extends StatelessWidget {
   final IconPosition iconPosition;
-  final Icon icon;
+  final Widget icon;
   final Widget content;
 
   const IconContent({
