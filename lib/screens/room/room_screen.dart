@@ -13,14 +13,14 @@ import 'package:flutter/scheduler.dart';
 
 class Room extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return ActiveRoomConnector(
-      builder: (_, ActiveRoomViewModel viewModel) => _RoomView(
-        room: viewModel.room,
-        resetActiveRoom: viewModel.resetActiveRoom,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ActiveRoomConnector(
+        builder: (_, ActiveRoomViewModel viewModel) {
+          return _RoomView(
+            room: viewModel.roomDetails.room,
+            resetActiveRoom: viewModel.resetActiveRoom,
+          );
+        },
+      );
 }
 
 class _RoomView extends StatelessWidget {
