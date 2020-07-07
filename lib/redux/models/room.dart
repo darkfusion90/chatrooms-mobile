@@ -47,16 +47,18 @@ class RoomModel {
         ? UserModel(createdBy, username: '')
         : UserModel.fromJson(createdBy);
   }
-  
+
   bool get isMember => membership.isMember;
 
   bool get isNotMember => membership.isNotMember;
-  
+
   bool get isParticipant => membership.isParticipant;
 
   bool get isAdmin => membership.isAdmin;
 
   bool get isMembershipUndetermined => membership.isUndetermined;
+
+  bool isCreator(UserModel user) => createdBy == user;
 
   @override
   String toString() => 'RoomModel('
