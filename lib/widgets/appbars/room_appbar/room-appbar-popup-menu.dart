@@ -1,45 +1,54 @@
-import 'package:chatrooms/widgets/icon-content.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
+import 'package:chatrooms/router/route_names.dart';
+
+enum PopupAction { leaveRoom, roomInfo }
+
 class RoomAppbarPopupMenu extends StatelessWidget {
-  final List<_PopupItemViewModel> _popupItems = [
-    _PopupItemViewModel(
-      Icons.exit_to_app,
-      'Leave Room',
-      () => print('onPressed leave room'),
-    )
+  @override
+  Widget build(BuildContext context) {
+    return ActiveRoomConnector(
+      builder: (_, viewModel) => _RoomAppbarPopupMenuView(
+        onLeaveRoom: viewModel.roomActions.leaveRoom,
+      ),
+    );
+  }
+}
+
+class _RoomAppbarPopupMenuView extends StatelessWidget {
+  final VoidCallback onLeaveRoom;
+
+  _RoomAppbarPopupMenuView({@required this.onLeaveRoom});
+
+  final List<PopupMenuEntry<PopupAction>> _popupItems = [
+    PopupMenuItem(
+      value: PopupAction.leaveRoom,
+      child: Text('Leave Room'),
+    ),
+    PopupMenuItem(
+      value: PopupAction.roomInfo,
+      child: Text('Room Info'),
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<_PopupItemViewModel>(
-      itemBuilder: _buildPopupMenuItems,
+    return PopupMenuButton<PopupAction>(
+      itemBuilder: (_) => _popupItems,
       offset: Offset(0, 32.0),
-      onSelected: (popup) => popup.onItemPressed(),
+      onSelected: (action) => _onPopupItemSelected(context, action),
     );
   }
 
-  List<PopupMenuEntry<_PopupItemViewModel>> _buildPopupMenuItems(_) =>
-      _popupItems.map((_PopupItemViewModel popup) => popup.build()).toList();
-}
-
-class _PopupItemViewModel {
-  final IconData icon;
-  final String text;
-  final VoidCallback onItemPressed;
-
-  _PopupItemViewModel(this.icon, this.text, this.onItemPressed);
-
-  PopupMenuEntry<_PopupItemViewModel> build() =>
-      PopupMenuItem<_PopupItemViewModel>(
-        value: this,
-        child: IconContent(
-          icon: Icon(icon, color: Colors.black),
-          content: Text(text),
-        ),
-      );
-
-  @override
-  String toString() => 'PopupItem -> text: $text';
+  void _onPopupItemSelected(BuildContext context, PopupAction action) {
+    switch (action) {
+      case PopupAction.leaveRoom:
+        onLeaveRoom();
+        Navigator.of(context).pop();
+        break;
+      case PopupAction.roomInfo:
+        Navigator.of(context).pushNamed(RouteNames.roomInfo);
+    }
+  }
 }
