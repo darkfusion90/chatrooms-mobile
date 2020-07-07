@@ -1,7 +1,9 @@
+import 'package:requests/requests.dart';
+
+import 'package:chatrooms/redux/models/room-member.dart';
 import 'package:chatrooms/redux/models/room-membership.dart';
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/services/api/api-rooms.dart';
-import 'package:requests/requests.dart';
 
 class ApiRoomMembership {
   static final String _root = '${ApiRooms.root}/:roomId/members';
@@ -36,5 +38,18 @@ class ApiRoomMembership {
     }
 
     return room.membership;
+  }
+
+  Future<List<RoomMember>> getMembers(RoomModel room) async {
+    final String url = '${root(room.id)}';
+
+    Map<String, dynamic> json = (await Requests.get(url)).json();
+    print('response json: $json');
+    List<dynamic> members = json['members'] ?? [];
+
+    return List<RoomMember>.generate(
+      members.length,
+      (index) => RoomMember.fromJson(members[index]),
+    );
   }
 }
