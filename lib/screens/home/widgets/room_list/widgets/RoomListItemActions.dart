@@ -30,7 +30,9 @@ class _RoomListItemActionsView extends StatelessWidget {
       return _loadingIndicator(context);
     }
 
-    return viewModel.room.isMember ? _memberActions : _nonMemberActions;
+    return viewModel.room.isMember
+        ? _memberActions
+        : _nonMemberActions(context);
   }
 
   Widget _loadingIndicator(BuildContext context) => Container(
@@ -41,9 +43,10 @@ class _RoomListItemActionsView extends StatelessWidget {
         ),
       );
 
-  Widget get _nonMemberActions => OutlineButton.icon(
+  Widget _nonMemberActions(BuildContext context) => OutlineButton.icon(
         icon: Icon(Icons.add_circle),
         label: Text('Join'),
+        textColor: Theme.of(context).primaryColor,
         onPressed: viewModel.joinRoom,
       );
 
