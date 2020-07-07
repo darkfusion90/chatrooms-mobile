@@ -1,7 +1,8 @@
-import 'package:chatrooms/screens/create_room/create_room_screen.dart';
+import 'package:flutter/material.dart';
+
+import 'package:chatrooms/router/route_names.dart';
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogManager.dart';
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogNames.dart';
-import 'package:flutter/material.dart';
 
 class HomeAppbarMenuButton extends StatelessWidget {
   final List<PopupMenuEntry<PopupEntryAction>> _popupMenuEntries = [
@@ -27,10 +28,7 @@ class HomeAppbarMenuButton extends StatelessWidget {
   void _onPopupEntrySelected(BuildContext context, PopupEntryAction action) {
     switch (action) {
       case PopupEntryAction.createRoom:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => CreateRoomScreen()),
-        );
+        Navigator.of(context).pushNamed(RouteNames.createRoom);
         break;
       case PopupEntryAction.joinRoom:
         DialogManager.of(context).show(DialogName.joinRoom);
