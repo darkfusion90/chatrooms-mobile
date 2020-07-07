@@ -1,3 +1,4 @@
+import 'package:chatrooms/widgets/room_created_at.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -26,7 +27,6 @@ class RoomListItem extends StatelessWidget {
 class _RoomListItemView extends StatelessWidget {
   final RoomModel room;
   final VoidCallback setActiveRoom;
-  final DateFormat _createdAtDateFormatter = DateFormat('MMM d, yyyy');
 
   _RoomListItemView({@required this.room, @required this.setActiveRoom})
       : assert(room != null),
@@ -45,7 +45,6 @@ class _RoomListItemView extends StatelessWidget {
 
   Widget get _subtitle {
     final String createdBy = room.createdBy.username;
-    final String createdAt = _createdAtDateFormatter.format(room.createdAt);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -62,11 +61,11 @@ class _RoomListItemView extends StatelessWidget {
           ],
         ),
         SizedBox(height: 10),
-        Text('Created: $createdAt'),
+        RoomCreatedAt(room: room),
       ],
     );
   }
-
+  
   void _handleOnItemTap(BuildContext context) {
     setActiveRoom();
     Navigator.of(context).pushNamed(RouteNames.room);
