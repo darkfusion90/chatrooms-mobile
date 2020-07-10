@@ -40,12 +40,16 @@ class RoomMembership {
   bool get isMember => !isUndetermined && type.isMember;
 
   bool get isNotMember => !isUndetermined && type.isNotMember;
-  
-    bool get isAdmin => !isUndetermined && type.isAdmin;
+
+  bool get isAdmin => !isUndetermined && type.isAdmin;
 
   bool get isParticipant => !isUndetermined && type.isParticipant;
 
   bool get isUndetermined => this == undetermined;
+
+  @override
+  String toString() =>
+      this == undetermined ? 'RoomMembership.undetermined' : type;
 
   @override
   bool operator ==(other) =>
