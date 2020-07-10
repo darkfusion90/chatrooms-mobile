@@ -1,29 +1,42 @@
 import 'package:chatrooms/redux/models/room_list/room_list.dart';
+import 'package:chatrooms/redux/models/room_list/room_list_filter.dart';
 import 'package:chatrooms/redux/state/state_interface.dart';
 import 'package:flutter/cupertino.dart';
 
 class RoomsState implements ReduxState {
-  final RoomListModel roomList;
+  final RoomListModel publicRooms;
+  final RoomListModel joinedRooms;
+  final RoomListFilter filter;
 
-  RoomsState({@required this.roomList}) : assert(roomList != null);
+  RoomsState({
+    @required this.publicRooms,
+    @required this.joinedRooms,
+    @required this.filter,
+  })  : assert(publicRooms != null),
+        assert(joinedRooms != null);
 
-  factory RoomsState.init() => RoomsState(roomList: RoomListModel.empty());
-
-  // Creates an instance by applying all properties of state while
-  // overriding them with the optional named arguments if provided
-  factory RoomsState.apply(RoomsState state, {RoomListModel roomList}) =>
-      RoomsState(roomList: roomList ?? state.roomList);
+  factory RoomsState.init() => RoomsState(
+        publicRooms: RoomListModel.empty(),
+        joinedRooms: RoomListModel.empty(),
+        filter: RoomListFilter.noFilter,
+      );
 
   @override
   String toString() => 'RoomsState(\n'
-      'roomList: $roomList\n'
+      'roomList: $publicRooms,\n'
+      'joinedRooms: $joinedRooms,\n'
+      'filter: $filter,\n'
       ')';
 
   @override
   bool compareState(other) {
-    return other is RoomsState && other.roomList == roomList;
+    return other is RoomsState &&
+        other.publicRooms == publicRooms &&
+        other.joinedRooms == joinedRooms &&
+        other.filter == filter;
   }
 
   @override
-  int getHashCode() => roomList.hashCode;
+  int getHashCode() =>
+      publicRooms.hashCode ^ joinedRooms.hashCode ^ filter.hashCode;
 }
