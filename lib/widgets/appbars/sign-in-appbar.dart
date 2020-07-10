@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chatrooms/widgets/appbars/appbar-interface.dart';
 
-class SignInAppBar extends BaseAppBar {
+class SignInAppBar extends StatefulAppBar {
   @override
   State<StatefulWidget> createState() => _SignInAppBarState();
 }
