@@ -5,7 +5,7 @@ import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/widgets/appbars/appbar-interface.dart';
 import 'package:chatrooms/widgets/appbars/room_appbar/room-appbar-popup-menu.dart';
 
-class RoomAppBar extends BaseAppBar {
+class RoomAppBar extends StatefulAppBar {
   final RoomModel room;
 
   RoomAppBar(this.room);
