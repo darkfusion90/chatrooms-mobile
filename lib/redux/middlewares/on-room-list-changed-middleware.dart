@@ -1,5 +1,5 @@
 import 'package:chatrooms/redux/actions/membership_actions/update_room_memberships.dart';
-import 'package:chatrooms/redux/actions/general_room_actions/room_list_changed.dart';
+import 'package:chatrooms/redux/actions/room_list_actions/room_list_changed.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
 import 'package:redux/redux.dart';
 
