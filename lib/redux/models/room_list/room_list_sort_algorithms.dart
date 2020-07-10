@@ -1,4 +1,5 @@
 import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/shared/enums/enum_sort_order.dart';
 import 'package:chatrooms/shared/typedefs/typedef_sort_algorithm.dart';
 
 abstract class RoomListSortAlgorithm {
@@ -25,6 +26,14 @@ abstract class RoomListSortAlgorithm {
 
 enum RoomListSortFactor { alphabetical, creationDate }
 
+extension BoolGetters on RoomListSortFactor {
+  bool _matches(RoomListSortFactor factor) => this == factor;
+
+  bool get isAlphabetical => _matches(RoomListSortFactor.alphabetical);
+
+  bool get isByCreationDate => _matches(RoomListSortFactor.creationDate);
+}
+
 class UnknownRoomListSortFactorException implements Exception {
   final RoomListSortFactor sortFactor;
 
@@ -32,4 +41,13 @@ class UnknownRoomListSortFactorException implements Exception {
 
   @override
   String toString() => 'Unknown RoomListSortFactor: $sortFactor';
+}
+
+class UnknownSortOrderException implements Exception {
+  final SortOrder sortOrder;
+
+  UnknownSortOrderException(this.sortOrder);
+
+  @override
+  String toString() => 'Unknown RoomListSortFactor: $sortOrder';
 }
