@@ -1,17 +1,16 @@
-import 'package:chatrooms/widgets/room_created_at.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
+import 'package:chatrooms/redux/models/user.dart';
 import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
 import 'package:chatrooms/router/route_names.dart';
+import 'package:chatrooms/widgets/room_created_at.dart';
+import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
+import 'package:chatrooms/screens/home/widgets/room_feed/widgets/room_feed_item_actions.dart';
 
-import 'RoomListItemActions.dart';
-
-class RoomListItem extends StatelessWidget {
+class RoomFeedItem extends StatelessWidget {
   final RoomModel room;
 
-  RoomListItem(this.room);
+  RoomFeedItem(this.room);
 
   @override
   Widget build(BuildContext context) {
@@ -39,33 +38,33 @@ class _RoomListItemView extends StatelessWidget {
       subtitle: _subtitle,
       isThreeLine: true,
       trailing: RoomListItemActions(room: room),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
       onTap: () => _handleOnItemTap(context),
     );
   }
 
-  Widget get _subtitle {
-    final String createdBy = room.createdBy.username;
+  Widget get _subtitle => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _roomCreatedBy,
+          SizedBox(height: 10),
+          RoomCreatedAt(room: room),
+        ],
+      );
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget get _roomCreatedBy {
+    String createdBy = room.createdBy.username ?? UserModel.deleted.username;
+
+    return Row(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Icon(
-              Icons.edit,
-              size: 16,
-            ),
-            SizedBox(width: 3),
-            Text(createdBy ?? '...'),
-          ],
-        ),
-        SizedBox(height: 10),
-        RoomCreatedAt(room: room),
+        Icon(Icons.edit, size: 16),
+        SizedBox(width: 3),
+        Text(createdBy ?? '...'),
       ],
     );
   }
-  
+
   void _handleOnItemTap(BuildContext context) {
     setActiveRoom();
     Navigator.of(context).pushNamed(RouteNames.room);
