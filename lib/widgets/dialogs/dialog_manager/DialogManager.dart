@@ -1,4 +1,6 @@
+import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/widgets/dialogs/join_room_dialog.dart';
+import 'package:chatrooms/widgets/dialogs/leave_room_confirmation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatrooms/widgets/dialogs/signout_confirmation_dialog.dart';
@@ -11,7 +13,7 @@ class DialogManager {
 
   factory DialogManager.of(BuildContext context) => DialogManager(context);
 
-  Future<T> show<T>(DialogName name) {
+  Future<T> show<T>(DialogName name, {Object arguments}) {
     switch (name) {
       case DialogName.signOutConfirmation:
         return showDialog<T>(
@@ -24,6 +26,12 @@ class DialogManager {
           context: context,
           builder: _joinRoom,
         );
+      case DialogName.leaveRoomConfirmation:
+        return showDialog<T>(
+          context: context,
+          builder:
+              _leaveRoom((arguments as LeaveRoomConfirmationArguments).room),
+        );
       default:
         throw UnknownDialogException(name);
     }
@@ -32,6 +40,9 @@ class DialogManager {
   WidgetBuilder get _signOutConfirmation => (_) => SignOutConfirmationDialog();
 
   WidgetBuilder get _joinRoom => (_) => JoinRoomDialog();
+
+  WidgetBuilder _leaveRoom(RoomModel room) =>
+      (_) => LeaveRoomConfirmationDialog(room: room);
 }
 
 class UnknownDialogException implements Exception {
