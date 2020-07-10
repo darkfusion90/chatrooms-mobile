@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/widgets/appbars/appbar-interface.dart';
 
-class RoomInfoAppBar extends BaseAppBar {
+class RoomInfoAppBar extends StatefulAppBar {
   final RoomModel room;
 
   RoomInfoAppBar({@required this.room}) : assert(room != null);
