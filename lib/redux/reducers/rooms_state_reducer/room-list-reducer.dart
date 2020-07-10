@@ -1,12 +1,12 @@
-import 'package:chatrooms/redux/actions/membership_actions/update_room_memberships.dart';
-import 'package:chatrooms/redux/actions/general_room_actions/fetch_public_rooms.dart';
-import 'package:chatrooms/redux/actions/room_list_actions/SetRoomListFilter.dart';
-import 'package:chatrooms/redux/models/room_list/room_list.dart';
 import 'package:redux/redux.dart';
+
+import 'package:chatrooms/redux/actions/membership_actions/update_room_memberships.dart';
+import 'package:chatrooms/redux/actions/room_list_actions/fetch_public_rooms.dart';
+import 'package:chatrooms/redux/models/room_list/room_list.dart';
 
 RoomListModel _fetchPublicRoomsReducer(
   RoomListModel roomList,
-  FetchPublicRooms action,
+  SetPublicRoomsAction action,
 ) =>
     RoomListModel(action.rooms);
 
@@ -18,16 +18,9 @@ RoomListModel _updateRoomMembershipReducer(
   return roomList;
 }
 
-RoomListModel _updateRoomListFilter(
-  RoomListModel roomList,
-  SetRoomListFilterAction action,
-) =>
-    RoomListModel(roomList.rooms, filter: action.filter);
-
 final Reducer<RoomListModel> roomListReducer = combineReducers<RoomListModel>([
-  TypedReducer<RoomListModel, FetchPublicRooms>(_fetchPublicRoomsReducer),
+  TypedReducer<RoomListModel, SetPublicRoomsAction>(_fetchPublicRoomsReducer),
   TypedReducer<RoomListModel, UpdateRoomMembershipAction>(
     _updateRoomMembershipReducer,
   ),
-  TypedReducer<RoomListModel, SetRoomListFilterAction>(_updateRoomListFilter),
 ]);
