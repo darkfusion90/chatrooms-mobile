@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class UserModel {
-  static const UserModel _deleted =
+  static const UserModel deleted =
       UserModel('spaceboy', username: '[deleted]');
   final String id;
   final String username;
@@ -10,7 +10,7 @@ class UserModel {
       : assert(username != null);
 
   factory UserModel.fromJson(Map<String, dynamic> json) => json == null
-      ? UserModel._deleted
+      ? UserModel.deleted
       : UserModel(json['_id'], username: json['username']);
 
   Map<String, dynamic> toJson() => {
@@ -18,7 +18,7 @@ class UserModel {
         'username': username,
       };
 
-  bool get isDeleted => this == _deleted;
+  bool get isDeleted => this == deleted;
 
   @override
   bool operator ==(other) =>
