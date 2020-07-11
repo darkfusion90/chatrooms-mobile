@@ -7,9 +7,10 @@ import 'package:chatrooms/screens/home/widgets/room_feed/room_feed.dart';
 
 class JoinedRoomFeed extends StatelessWidget {
   Widget build(BuildContext context) => RoomListConnector(
+        category: RoomListCategory.joined,
         builder: (_, viewModel) => RoomFeed(
           roomList: viewModel.joinedRooms,
-          refreshRoomList: () {},
+          refreshRoomList: viewModel.fetchJoinedRooms,
           emptyFeedWidget: _emptyFeed,
         ),
       );
