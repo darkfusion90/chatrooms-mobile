@@ -6,13 +6,13 @@ import 'package:chatrooms/services/api/api.dart';
 import 'package:chatrooms/services/api/config.dart';
 
 class ApiUser {
-  static final String _root = ApiConfig.createUrl('user');
+  static final String root = ApiConfig.createUrl('user');
   static final String _loginRoot = ApiConfig.createUrl('login');
   static final String _logoutRoot = ApiConfig.createUrl('logout');
-  static final String _registerRoot = _root;
+  static final String _registerRoot = root;
 
   Future<AccountModel> getCurrentUserAccount() async {
-    return AccountModel.fromJson(await Api.getJson(_root));
+    return AccountModel.fromJson(await Api.getJson(root));
   }
 
   Future<Response> login(LoginInfo info) => _postAccount(_loginRoot, info);
