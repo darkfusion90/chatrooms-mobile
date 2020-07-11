@@ -9,13 +9,15 @@ import 'package:chatrooms/screens/home/widgets/room_feed/widgets/room_feed_item_
 
 class RoomFeedItem extends StatelessWidget {
   final RoomModel room;
+  final double paddingTop;
 
-  RoomFeedItem(this.room);
+  const RoomFeedItem({this.room, this.paddingTop});
 
   @override
   Widget build(BuildContext context) {
     return ActiveRoomConnector(
       builder: (_, viewModel) => _RoomListItemView(
+        paddingTop: paddingTop,
         room: room,
         setActiveRoom: () => viewModel.setActiveRoom(room),
       ),
@@ -24,21 +26,30 @@ class RoomFeedItem extends StatelessWidget {
 }
 
 class _RoomListItemView extends StatelessWidget {
+  final double paddingTop;
   final RoomModel room;
   final VoidCallback setActiveRoom;
 
-  _RoomListItemView({@required this.room, @required this.setActiveRoom})
-      : assert(room != null),
+  const _RoomListItemView({
+    @required this.room,
+    @required this.setActiveRoom,
+    this.paddingTop,
+  })  : assert(room != null),
         assert(setActiveRoom != null);
 
   @override
   Widget build(BuildContext context) {
+    final EdgeInsets contentPadding = EdgeInsets.symmetric(
+      horizontal: 16.0,
+      vertical: 12,
+    ).copyWith(top: paddingTop);
+
     return ListTile(
       title: Text(room.name),
       subtitle: _subtitle,
       isThreeLine: true,
       trailing: RoomListItemActions(room: room),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+      contentPadding: contentPadding,
       onTap: () => _handleOnItemTap(context),
     );
   }

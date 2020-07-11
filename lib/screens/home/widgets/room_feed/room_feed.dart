@@ -57,6 +57,7 @@ class _RoomFeedState extends State<RoomFeed> {
 
     return DraggableScrollbar.semicircle(
       child: ListView.builder(
+        padding: EdgeInsets.only(top: 0),
         controller: _scrollController,
         itemCount: widget.roomList.length,
         itemBuilder: _buildItem,
@@ -65,5 +66,8 @@ class _RoomFeedState extends State<RoomFeed> {
     );
   }
 
-  Widget _buildItem(_, int index) => RoomFeedItem(widget.roomList[index]);
+  Widget _buildItem(_, int index) => RoomFeedItem(
+        room: widget.roomList[index],
+        paddingTop: index == 0 ? 0 : null,
+      );
 }
