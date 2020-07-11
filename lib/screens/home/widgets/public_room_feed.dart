@@ -7,6 +7,7 @@ import 'empty_feed_indicator.dart';
 
 class PublicRoomFeed extends StatelessWidget {
   Widget build(BuildContext context) => RoomListConnector(
+        category: RoomListCategory.public,
         builder: (_, viewModel) => RoomFeed(
           roomList: viewModel.publicRooms,
           refreshRoomList: viewModel.fetchPublicRooms,
