@@ -54,7 +54,7 @@ class _RoomView extends StatelessWidget {
     if (room == null || room.isMembershipUndetermined || room.isNotMember) {
       return LoadingIndicator();
     }
-    return RoomModeViewMember();
+    return RoomModeViewMember(room: room);
   }
 
   void _ensureConfirmationAccepted(
