@@ -1,3 +1,8 @@
+import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/shared/enums/enum_confirmation_status.dart';
+import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogManager.dart';
+import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogNames.dart';
+import 'package:chatrooms/widgets/dialogs/leave_room_confirmation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
@@ -10,6 +15,7 @@ class RoomAppbarPopupMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return ActiveRoomConnector(
       builder: (_, viewModel) => _RoomAppbarPopupMenuView(
+        room: viewModel.roomDetails.room,
         onLeaveRoom: viewModel.roomActions.leaveRoom,
       ),
     );
@@ -17,9 +23,10 @@ class RoomAppbarPopupMenu extends StatelessWidget {
 }
 
 class _RoomAppbarPopupMenuView extends StatelessWidget {
+  final RoomModel room;
   final VoidCallback onLeaveRoom;
 
-  _RoomAppbarPopupMenuView({@required this.onLeaveRoom});
+  _RoomAppbarPopupMenuView({@required this.onLeaveRoom, this.room});
 
   final List<PopupMenuEntry<PopupAction>> _popupItems = [
     PopupMenuItem(
@@ -44,11 +51,22 @@ class _RoomAppbarPopupMenuView extends StatelessWidget {
   void _onPopupItemSelected(BuildContext context, PopupAction action) {
     switch (action) {
       case PopupAction.leaveRoom:
-        onLeaveRoom();
-        Navigator.of(context).pop();
+        _handleLeaveRoom(context);
         break;
       case PopupAction.roomInfo:
         Navigator.of(context).pushNamed(RouteNames.roomInfo);
+    }
+  }
+
+  void _handleLeaveRoom(BuildContext context) async {
+    final ConfirmationStatus status = await DialogManager.of(context).show(
+      DialogName.leaveRoomConfirmation,
+      arguments: LeaveRoomConfirmationArguments(room: room),
+    );
+
+    if (status.isAccepted) {
+      Navigator.of(context).pop();
+      onLeaveRoom();
     }
   }
 }
