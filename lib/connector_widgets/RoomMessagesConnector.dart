@@ -10,10 +10,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-class RoomMessagesConnector extends StatelessWidget {
+class ActiveRoomMessagesConnector extends StatelessWidget {
   final ParameterizedWidgetBuilder<RoomMessagesConnectorViewModel> builder;
 
-  const RoomMessagesConnector({@required this.builder})
+  const ActiveRoomMessagesConnector({@required this.builder})
       : assert(builder != null);
 
   @override

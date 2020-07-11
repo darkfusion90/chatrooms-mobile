@@ -11,7 +11,7 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AccountConnector(
-      builder: (_, accountViewModel) => RoomMessagesConnector(
+      builder: (_, accountViewModel) => ActiveRoomMessagesConnector(
         builder: (_, messagesViewModel) => _ChatView(
           currentUser: accountViewModel.account.user,
           messages: messagesViewModel.messages,
