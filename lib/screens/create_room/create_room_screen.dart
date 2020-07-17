@@ -1,5 +1,6 @@
-import 'package:chatrooms/screens/create_room/widget/create_room_form.dart';
 import 'package:flutter/material.dart';
+
+import 'package:chatrooms/screens/create_room/widgets/create_room_form/create_room_form.dart';
 
 class CreateRoomScreen extends StatelessWidget {
   @override

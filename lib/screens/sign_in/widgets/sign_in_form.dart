@@ -1,13 +1,13 @@
-import 'package:chatrooms/router/redirections.dart';
-import 'package:chatrooms/widgets/PrimaryColoredTextFlatButton.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:chatrooms/connector_widgets/AccountConnector.dart';
 import 'package:chatrooms/redux/actions/account_actions/login.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
+import 'package:chatrooms/router/redirections.dart';
 import 'package:chatrooms/router/route_names.dart';
+import 'package:chatrooms/connector_widgets/AccountConnector.dart';
+import 'package:chatrooms/widgets/PrimaryColoredTextFlatButton.dart';
 import 'package:chatrooms/widgets/account-action-form.dart';
 
 class SignInForm extends StatelessWidget {
