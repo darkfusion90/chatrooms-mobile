@@ -11,8 +11,15 @@ class ApiUser {
   static final String _logoutRoot = ApiConfig.createUrl('logout');
   static final String _registerRoot = root;
 
+  Future<dynamic> _getUser({String uid, bool byUsername = false}) {
+    final String query = byUsername ? '?byUsername=true' : '';
+    final String param = uid ?? '';
+
+    return Api.getJson('$root/$param$query');
+  }
+
   Future<AccountModel> getCurrentUserAccount() async {
-    return AccountModel.fromJson(await Api.getJson(root));
+    return AccountModel.fromJson(await _getUser());
   }
 
   Future<Response> login(LoginInfo info) => _postAccount(_loginRoot, info);
@@ -27,4 +34,13 @@ class ApiUser {
         'username': info.username,
         'password': info.password,
       });
+
+  Future<bool> usernameExists(String username) async {
+    final Map<String, dynamic> json = await _getUser(
+      byUsername: true,
+      uid: username,
+    );
+
+    return json.isNotEmpty;
+  }
 }
