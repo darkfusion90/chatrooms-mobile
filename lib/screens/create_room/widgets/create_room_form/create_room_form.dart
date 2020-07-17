@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:chatrooms/connector_widgets/RoomActionsConnector.dart';
 import 'package:chatrooms/redux/models/room.dart';
-import 'package:flutter/material.dart';
+import 'fields/room_type_radio_group.dart';
 
 typedef void OnCreateRoomCallback(CreateRoomFormData data);
 
@@ -12,10 +14,6 @@ class CreateRoomFormData {
 
   @override
   String toString() => 'Name: $roomName, Type: $roomType';
-}
-
-class RoomTypeController extends ValueNotifier<RoomType> {
-  RoomTypeController([RoomType value]) : super(value);
 }
 
 class CreateRoomForm extends StatelessWidget {
@@ -80,7 +78,7 @@ class _CreateRoomFormView extends StatelessWidget {
       );
 
   Widget get _roomTypeRadioGroup =>
-      _RoomTypeRadioGroup(controller: _roomTypeCtrl);
+      RoomTypeRadioGroup(controller: _roomTypeCtrl);
 
   Widget get _createRoomButton => OutlineButton(
         borderSide: BorderSide(color: Colors.purple),
@@ -98,85 +96,5 @@ class _CreateRoomFormView extends StatelessWidget {
   CreateRoomFormData get _formData => CreateRoomFormData(
         _roomNameCtrl.text.trim(),
         _roomTypeCtrl.value,
-      );
-}
-
-class _RoomTypeRadioGroup extends StatefulWidget {
-  final RoomTypeController controller;
-
-  const _RoomTypeRadioGroup({this.controller});
-
-  @override
-  State<StatefulWidget> createState() => _RoomTypeRadioGroupState();
-}
-
-class _RoomTypeRadioGroupState extends State<_RoomTypeRadioGroup> {
-  RoomTypeController controller;
-  RoomType _currentRoomType;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = widget.controller ?? RoomTypeController();
-    _currentRoomType = controller.value;
-  }
-
-  void _handleRoomTypeChange(RoomType newValue) {
-    controller.value = newValue;
-
-    if (this.mounted)
-      setState(() {
-        _currentRoomType = newValue;
-      });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _radioGroupLabel,
-        SizedBox(height: 20),
-        _typePrivateField,
-        _typePublicField,
-        _typeUnlistedField,
-      ],
-    );
-  }
-
-  Widget get _radioGroupLabel => Text(
-        'Room Type:',
-        style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
-      );
-
-  Widget _radio(RoomType value, Widget title, String tooltip) =>
-      RadioListTile<RoomType>(
-        value: value,
-        groupValue: _currentRoomType,
-        onChanged: _handleRoomTypeChange,
-        title: title,
-        secondary: IconButton(
-          icon: Icon(Icons.info_outline),
-          onPressed: null,
-          tooltip: tooltip,
-        ),
-      );
-
-  Widget get _typePrivateField => _radio(
-        RoomType.private,
-        Text('Private'),
-        'Restricted access. Not included in the room feed',
-      );
-
-  Widget get _typePublicField => _radio(
-        RoomType.public,
-        Text('Public'),
-        'Open to all and is included in the room feed',
-      );
-
-  Widget get _typeUnlistedField => _radio(
-        RoomType.unlisted,
-        Text('Unlisted'),
-        'Open to all but not included in the room feed',
       );
 }
