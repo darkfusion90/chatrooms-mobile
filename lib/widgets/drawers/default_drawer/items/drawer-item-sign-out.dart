@@ -4,17 +4,12 @@ import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogManager.dart';
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogNames.dart';
 import 'package:flutter/material.dart';
 
-class DrawerItemSignOut extends StatefulWidget {
+class DrawerItemSignOut extends StatelessWidget {
   final VoidCallback onSignOut;
 
   const DrawerItemSignOut({@required this.onSignOut})
       : assert(onSignOut != null);
 
-  @override
-  _DrawerItemSignOutState createState() => _DrawerItemSignOutState();
-}
-
-class _DrawerItemSignOutState extends State<DrawerItemSignOut> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -29,7 +24,7 @@ class _DrawerItemSignOutState extends State<DrawerItemSignOut> {
         await DialogManager.of(context).show(DialogName.signOutConfirmation);
 
     if (status.isAccepted) {
-      widget.onSignOut();
+      onSignOut();
       CompleteRedirect.of(context).toHome();
     }
   }
