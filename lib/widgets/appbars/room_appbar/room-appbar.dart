@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:chatrooms/utils/share-util.dart';
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/widgets/appbars/appbar-interface.dart';
 import 'package:chatrooms/widgets/appbars/room_appbar/room-appbar-popup-menu.dart';
+import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/branch-action-popup-button.dart';
 
 class RoomAppBar extends StatefulAppBar {
   final RoomModel room;
@@ -26,12 +26,7 @@ class _RoomAppBarState extends State<RoomAppBar> {
   Widget _buildTitle() => Text(widget.room.name);
 
   List<Widget> _buildActions(BuildContext context) => <Widget>[
-        _shareButton,
+        RoomAppBarBranchAction(),
         RoomAppbarPopupMenu(),
       ];
-
-  Widget get _shareButton => IconButton(
-        icon: Icon(Icons.share),
-        onPressed: () => AppShareUtils.shareRoom(widget.room),
-      );
 }
