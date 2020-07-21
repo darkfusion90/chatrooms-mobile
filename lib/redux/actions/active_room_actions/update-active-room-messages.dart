@@ -1,11 +1,15 @@
-import 'package:chatrooms/redux/actions/active_room_actions/set-active-room.dart';
-import 'package:chatrooms/redux/models/room-message.dart';
-import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
-import 'package:chatrooms/redux/state/AppState.dart';
-import 'package:chatrooms/services/api/api.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+
+import 'package:chatrooms/redux/models/branch.dart';
+import 'package:chatrooms/redux/models/room-message.dart';
+import 'package:chatrooms/redux/models/room.dart';
+
+import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
+import 'package:chatrooms/redux/selectors/branch_selectors/current-branch-selector.dart';
+
+import 'package:chatrooms/redux/state/AppState.dart';
+import 'package:chatrooms/services/api/api.dart';
 
 class UpdateActiveRoomMessagesAction {
   final List<RoomMessage> messages;
@@ -13,13 +17,17 @@ class UpdateActiveRoomMessagesAction {
   UpdateActiveRoomMessagesAction(this.messages);
 }
 
-ThunkAction<AppState> updateActiveRoomMessages([SetActiveRoomAction action]) {
-  return (Store<AppState> store) async {
-    final RoomModel activeRoom =
-        action == null ? activeRoomSelector(store.state) : action.room;
-    
-    List<RoomMessage> messages = await Api.roomMessages.getMessages(activeRoom);
+ThunkAction<AppState> updateActiveRoomMessages([
+  RoomModel room,
+  BranchModel branch,
+]) =>
+    (Store<AppState> store) async {
+      final RoomModel activeRoom = room ?? activeRoomSelector(store.state);
+      final BranchModel currentBranch =
+          branch ?? currentBranchSelector(store.state);
 
-    store.dispatch(UpdateActiveRoomMessagesAction(messages));
-  };
-}
+      List<RoomMessage> messages =
+          await Api.roomMessages.getMessages(activeRoom, currentBranch);
+
+      store.dispatch(UpdateActiveRoomMessagesAction(messages));
+    };
