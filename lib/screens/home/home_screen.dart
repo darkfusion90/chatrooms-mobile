@@ -1,3 +1,4 @@
+import 'package:chatrooms/screens/home/widgets/create_room-fab.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatrooms/shared/typedefs/typedef_room_list_filter_cb.dart';
@@ -87,6 +88,7 @@ class _HomeScreenView extends StatelessWidget {
         bottom: TabBar(tabs: tabs, controller: tabController),
       ),
       body: TabBarView(controller: tabController, children: children),
+      floatingActionButton: CreateRoomFAB(),
     );
   }
 
