@@ -1,35 +1,52 @@
+import 'dart:math';
+
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chatrooms/redux/models/branch.dart';
 import 'package:chatrooms/utils/AssetsProvider.dart';
 
+import 'package:chatrooms/widgets/icon-content.dart';
 import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/branch-action-popup-item.dart';
 import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/data/BranchPopupAction.dart';
 import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/data/BranchPopupEntryViewModel.dart';
 import 'package:chatrooms/connector_widgets/RoomBranchConnector.dart';
 
-const int kMaxBranchesInPopup = 2;
+const int kMaxBranchesInPopup = 5;
+const ImageProvider kBranchImage = AssetImage(AssetKeyProvider.branchIcon);
 
 class RoomAppBarBranchAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RoomBranchConnector(
-      builder: (_, viewModel) => _RoomAppBarBranchAction(viewModel: viewModel),
+      builder: (_, viewModel) => _RoomAppBarBranchAction(
+        viewModel: viewModel,
+        branchList: BranchListViewModel(
+          branches: viewModel.branches,
+          currentBranch: viewModel.currentBranch,
+        ),
+      ),
     );
   }
 }
 
 class _RoomAppBarBranchAction extends StatelessWidget {
   final RoomBranchConnectorViewModel viewModel;
+  final BranchListViewModel branchList;
 
-  const _RoomAppBarBranchAction({@required this.viewModel});
+  const _RoomAppBarBranchAction({
+    @required this.viewModel,
+    @required this.branchList,
+  });
 
   @override
   Widget build(BuildContext context) {
     print('current${viewModel.currentBranch}');
     return PopupMenuButton<BranchPopupEntryViewModel>(
-      icon: ImageIcon(AssetImage(AssetKeyProvider.branchIcon)),
+      child: IconContent(
+        icon: ImageIcon(kBranchImage),
+        content: Text('(${viewModel.currentBranch.name})'),
+      ),
       tooltip: 'Find and create branches',
       offset: Offset(0, 36),
       itemBuilder: _popupItems,
@@ -53,7 +70,7 @@ class _RoomAppBarBranchAction extends StatelessWidget {
     BranchPopupEntryViewModel entry,
   ) {
     switch (entry.action) {
-      case BranchPopupAction.showMoreBranches:
+      case BranchPopupAction.showMoreOptions:
         Flushbar(message: 'Show More Branches!', duration: Duration(seconds: 2))
             .show(context);
     }
@@ -61,20 +78,20 @@ class _RoomAppBarBranchAction extends StatelessWidget {
 
   PopupMenuItemBuilder<BranchPopupEntryViewModel> get _popupItems =>
       (BuildContext context) {
-        List<PopupMenuEntry<BranchPopupEntryViewModel>> popups =
-            _popupItemsLimited;
-        if (viewModel.branches.length > kMaxBranchesInPopup) {
-          popups.addAll([PopupMenuDivider(), _showMoreBranchesPopupItem]);
-        }
+        List<PopupMenuEntry<BranchPopupEntryViewModel>> popups = [
+          _popupHeader(context),
+          PopupMenuDivider(),
+        ]
+          ..addAll(_popupItemsLimited)
+          ..addAll([PopupMenuDivider(), _showMoreBranchesPopupItem]);
 
         return popups;
       };
 
   List<PopupMenuEntry<BranchPopupEntryViewModel>> get _popupItemsLimited {
-    final List<BranchModel> branches =
-        viewModel.branches.sublist(0, kMaxBranchesInPopup);
-
-    return branches.map((branch) => _popupItem(branch)).toList();
+    return branchList.limitedBranches
+        .map((branch) => _popupItem(branch))
+        .toList();
   }
 
   PopupMenuEntry<BranchPopupEntryViewModel> _popupItem(
@@ -90,6 +107,44 @@ class _RoomAppBarBranchAction extends StatelessWidget {
         ),
       );
 
+  PopupMenuEntry<BranchPopupEntryViewModel> _popupHeader(
+    BuildContext context,
+  ) {
+    final int branchLength = viewModel.branches.length;
+    final int branchesShown = min(kMaxBranchesInPopup, branchLength);
+
+    String countInfo = '$branchesShown of $branchLength';
+
+    return PopupMenuItem(
+      child: BranchPopupItem.buildRow(
+        ImageIcon(
+          kBranchImage,
+          color: Theme.of(context).primaryColor,
+        ),
+        Text('Branches ($countInfo)'),
+      ),
+    );
+  }
+
   PopupMenuEntry<BranchPopupEntryViewModel> get _showMoreBranchesPopupItem =>
-      _popupItem(null, BranchPopupAction.showMoreBranches);
+      _popupItem(null, BranchPopupAction.showMoreOptions);
+}
+
+class BranchListViewModel {
+  final List<BranchModel> branches;
+  final BranchModel currentBranch;
+
+  BranchListViewModel({this.currentBranch, this.branches}) {
+    _shuffleCurrentBranchToTop();
+  }
+
+  void _shuffleCurrentBranchToTop() {
+    branches.remove(currentBranch);
+    branches.insert(0, currentBranch);
+  }
+
+  List<BranchModel> get limitedBranches => branches.sublist(
+        0,
+        min(kMaxBranchesInPopup, branches.length),
+      );
 }
