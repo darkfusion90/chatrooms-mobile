@@ -1,5 +1,5 @@
 import 'package:chatrooms/redux/models/branch.dart';
-import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/data/BranchPopupAction.dart';
+import 'BranchPopupAction.dart';
 
 class BranchPopupEntryViewModel {
   final BranchModel branch;

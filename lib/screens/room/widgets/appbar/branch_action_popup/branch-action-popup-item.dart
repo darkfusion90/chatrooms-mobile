@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:chatrooms/redux/models/branch.dart';
 
 import 'package:chatrooms/widgets/TextTag.dart';
-import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/data/BranchPopupAction.dart';
 import 'package:chatrooms/widgets/least_space_container.dart';
+
+import 'data/BranchPopupAction.dart';
 
 class BranchPopupItem extends StatelessWidget {
   final BranchModel branch;

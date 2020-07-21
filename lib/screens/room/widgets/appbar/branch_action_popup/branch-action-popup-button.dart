@@ -7,10 +7,11 @@ import 'package:chatrooms/redux/models/branch.dart';
 import 'package:chatrooms/utils/AssetsProvider.dart';
 
 import 'package:chatrooms/widgets/icon-content.dart';
-import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/branch-action-popup-item.dart';
-import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/data/BranchPopupAction.dart';
-import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/data/BranchPopupEntryViewModel.dart';
 import 'package:chatrooms/connector_widgets/RoomBranchConnector.dart';
+
+import 'branch-action-popup-item.dart';
+import 'data/BranchPopupAction.dart';
+import 'data/BranchPopupEntryViewModel.dart';
 
 const int kMaxBranchesInPopup = 5;
 const ImageProvider kBranchImage = AssetImage(AssetKeyProvider.branchIcon);
@@ -22,7 +23,7 @@ class RoomAppBarBranchAction extends StatelessWidget {
       builder: (_, viewModel) => _RoomAppBarBranchAction(
         viewModel: viewModel,
         branchList: BranchListViewModel(
-          branches: viewModel.branches,
+          branches: List<BranchModel>.from(viewModel.branches),
           currentBranch: viewModel.currentBranch,
         ),
       ),
@@ -41,11 +42,12 @@ class _RoomAppBarBranchAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('current${viewModel.currentBranch}');
+    final BranchModel currentBranch = viewModel.currentBranch;
+
     return PopupMenuButton<BranchPopupEntryViewModel>(
       child: IconContent(
         icon: ImageIcon(kBranchImage),
-        content: Text('(${viewModel.currentBranch.name})'),
+        content: Text(currentBranch == null ? '' : '(${currentBranch.name})'),
       ),
       tooltip: 'Find and create branches',
       offset: Offset(0, 36),

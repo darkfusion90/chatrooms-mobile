@@ -1,12 +1,13 @@
+import 'package:flutter/material.dart';
+
 import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/router/route_names.dart';
 import 'package:chatrooms/shared/enums/enum_confirmation_status.dart';
+
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogManager.dart';
 import 'package:chatrooms/widgets/dialogs/dialog_manager/DialogNames.dart';
 import 'package:chatrooms/widgets/dialogs/leave_room_confirmation.dart';
-import 'package:flutter/material.dart';
-
 import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
-import 'package:chatrooms/router/route_names.dart';
 
 enum PopupAction { leaveRoom, roomInfo }
 

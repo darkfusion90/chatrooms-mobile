@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:chatrooms/redux/models/room.dart';
+
 import 'package:chatrooms/widgets/appbars/appbar-interface.dart';
-import 'package:chatrooms/widgets/appbars/room_appbar/room-appbar-popup-menu.dart';
-import 'package:chatrooms/widgets/appbars/room_appbar/branch_action_popup/branch-action-popup-button.dart';
+import 'package:chatrooms/screens/room/widgets/appbar/room-appbar-popup-menu.dart';
+import 'package:chatrooms/screens/room/widgets/appbar/branch_action_popup/branch-action-popup-button.dart';
 
 class RoomAppBar extends StatefulAppBar {
   final RoomModel room;

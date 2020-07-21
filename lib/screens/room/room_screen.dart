@@ -1,15 +1,17 @@
-import 'package:chatrooms/shared/controllers/confirmation_status_controller.dart';
-import 'package:chatrooms/widgets/bottom_sheets/bottom-sheets-manager.dart';
-import 'package:chatrooms/shared/enums/enum_confirmation_status.dart';
-import 'package:chatrooms/widgets/prior_confirmation_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
+import 'package:chatrooms/shared/controllers/confirmation_status_controller.dart';
+import 'package:chatrooms/shared/enums/enum_confirmation_status.dart';
+import 'package:chatrooms/redux/models/room.dart';
 
 import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
-import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/screens/room/widgets/modes/room_mode_member.dart';
-import 'package:chatrooms/widgets/appbars/room_appbar/room-appbar.dart';
 import 'package:chatrooms/widgets/loading_indicator.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:chatrooms/widgets/prior_confirmation_builder.dart';
+import 'package:chatrooms/widgets/bottom_sheets/bottom-sheets-manager.dart';
+
+import 'widgets/modes/room_mode_member.dart';
+import 'widgets/appbar/room-appbar.dart';
 
 class Room extends StatelessWidget {
   @override
