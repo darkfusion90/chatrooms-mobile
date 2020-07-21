@@ -1,14 +1,18 @@
-import 'package:chatrooms/redux/actions/active_room_actions/update-active-room-messages.dart';
-import 'package:chatrooms/redux/models/room-message.dart';
-import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
-import 'package:chatrooms/redux/state/AppState.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+
 import 'package:chatrooms/services/socket_io/SocketService.dart';
 import 'package:chatrooms/shared/typedefs/typedef_param_widget_builder.dart';
 import 'package:chatrooms/utils/send_message.dart' as utils;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
+
+import 'package:chatrooms/redux/actions/active_room_actions/update-active-room-messages.dart';
+import 'package:chatrooms/redux/models/branch.dart';
+import 'package:chatrooms/redux/models/room-message.dart';
+import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
+import 'package:chatrooms/redux/selectors/branch_selectors/current-branch-selector.dart';
+import 'package:chatrooms/redux/state/AppState.dart';
 
 class ActiveRoomMessagesConnector extends StatelessWidget {
   final ParameterizedWidgetBuilder<RoomMessagesConnectorViewModel> builder;
@@ -42,8 +46,10 @@ class ActiveRoomMessagesConnector extends StatelessWidget {
   }
 
   void _sendMessage(Store<AppState> store, String message) {
-    final RoomModel room = activeRoomSelector(store.state);
-    utils.sendMessage(room, message);
+    final RoomModel activeRoom = activeRoomSelector(store.state);
+    final BranchModel currentBranch = currentBranchSelector(store.state);
+
+    utils.sendMessage(activeRoom, message, currentBranch);
   }
 }
 
