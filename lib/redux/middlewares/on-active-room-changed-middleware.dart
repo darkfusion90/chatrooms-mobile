@@ -1,7 +1,7 @@
-import 'package:chatrooms/redux/actions/active_room_actions/update-active-room-members.dart';
-import 'package:chatrooms/redux/actions/active_room_actions/update-active-room-messages.dart';
 import 'package:redux/redux.dart';
 
+import 'package:chatrooms/redux/actions/active_room_actions/update-active-room-members.dart';
+import 'package:chatrooms/redux/actions/branch_actions/update-branch-list.dart';
 import 'package:chatrooms/redux/actions/active_room_actions/set-active-room.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
 
@@ -10,8 +10,8 @@ dynamic _middleware(
   SetActiveRoomAction action,
   NextDispatcher next,
 ) {
-  store.dispatch(updateActiveRoomMembers(action));
-  store.dispatch(updateActiveRoomMessages(action));
+  store.dispatch(updateBranchList(action.room));
+  store.dispatch(updateActiveRoomMembers(action.room));
   next(action);
 }
 
