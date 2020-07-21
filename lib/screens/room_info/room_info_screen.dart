@@ -1,5 +1,6 @@
 import 'package:chatrooms/connector_widgets/ActiveRoomConnector.dart';
 import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/widgets/TextTag.dart';
 import 'package:chatrooms/widgets/appbars/room-info-appbar.dart';
 import 'package:chatrooms/widgets/least_space_container.dart';
 import 'package:flutter/material.dart';
@@ -82,20 +83,17 @@ class _RoomMemberRoleTags extends StatelessWidget {
     return tag;
   }
 
-  Widget _adminTag(BuildContext context) {
-    return _tag(
-      context,
-      Text('Admin', style: TextStyle(color: Theme.of(context).primaryColor)),
-    );
-  }
+  Widget _adminTag(BuildContext context) => TextTag(
+        child: Text(
+          'Admin',
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+      );
 
-  Widget _creatorTag(BuildContext context) {
-    return _tag(
-      context,
-      Text('Creator', style: TextStyle(color: Colors.deepOrange)),
-      borderColor: Colors.deepOrange,
-    );
-  }
+  Widget _creatorTag(BuildContext context) => TextTag(
+        child: Text('Creator', style: TextStyle(color: Colors.deepOrange)),
+        borderColor: Colors.deepOrange,
+      );
 
   Widget _adminCreatorTags(BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
@@ -105,18 +103,5 @@ class _RoomMemberRoleTags extends StatelessWidget {
           SizedBox(width: 8),
           _adminTag(context),
         ],
-      );
-
-  Widget _tag(BuildContext context, Widget child, {Color borderColor}) =>
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: borderColor ?? Theme.of(context).primaryColor,
-          ),
-          color: Colors.transparent,
-        ),
-        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-        child: child,
       );
 }
