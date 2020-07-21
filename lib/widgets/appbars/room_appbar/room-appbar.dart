@@ -15,6 +15,8 @@ class RoomAppBar extends StatefulAppBar {
 }
 
 class _RoomAppBarState extends State<RoomAppBar> {
+  String get _roomName => widget.room.name;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -23,7 +25,11 @@ class _RoomAppBarState extends State<RoomAppBar> {
     );
   }
 
-  Widget _buildTitle() => Text(widget.room.name);
+  // For room names longer than which can fit in the title, we show tooltip on long press
+  Widget _buildTitle() => Tooltip(
+        child: Text(_roomName),
+        message: '$_roomName',
+      );
 
   List<Widget> _buildActions(BuildContext context) => <Widget>[
         RoomAppBarBranchAction(),
