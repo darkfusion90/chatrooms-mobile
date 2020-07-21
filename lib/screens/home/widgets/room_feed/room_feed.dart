@@ -57,6 +57,7 @@ class _RoomFeedState extends State<RoomFeed> {
 
     return DraggableScrollbar.semicircle(
       child: ListView.builder(
+        physics: AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.only(top: 0),
         controller: _scrollController,
         itemCount: widget.roomList.length,
