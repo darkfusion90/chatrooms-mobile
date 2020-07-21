@@ -3,4 +3,5 @@ abstract class AssetKeyProvider {
   static const String imageAssets = 'assets/images';
   static const String guestAccountAvatar =
       '$imageAssets/guest-account-avatar.png';
+  static const String branchIcon = '$imageAssets/branch-icon.png';
 }
