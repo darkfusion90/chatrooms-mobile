@@ -17,23 +17,10 @@ class BranchPopupItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          _branchSelectedIcon(context),
-          SizedBox(width: 10),
-          Expanded(
-            child: Container(
-              child: Text(action?.title ?? branch.name),
-              color: Colors.red,
-            ),
-            flex: 1,
-          ),
-          SizedBox(width: 30),
-          _defaultBranchIcon(context),
-        ],
+      child: buildRow(
+        _branchSelectedIcon(context),
+        Text(action?.title ?? branch.name),
+        _defaultBranchIcon(context),
       ),
     );
   }
@@ -50,8 +37,26 @@ class BranchPopupItem extends StatelessWidget {
     return TextTag(
       child: Text(
         'default',
-        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 14),
+        style: TextStyle(color: Colors.white, fontSize: 14),
       ),
     );
   }
+
+  static Widget buildRow(
+    Widget leading,
+    Widget title, [
+    Widget trailing,
+  ]) =>
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          leading,
+          SizedBox(width: 10),
+          Expanded(child: title, flex: 1),
+          SizedBox(width: 30),
+          trailing ?? Icon(null),
+        ],
+      );
 }
