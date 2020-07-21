@@ -7,11 +7,10 @@ class IconContent extends StatelessWidget {
   final Widget content;
 
   const IconContent({
-    @required this.icon,
+    this.icon,
     @required this.content,
     this.iconPosition = IconPosition.leading,
   })  : assert(iconPosition != null),
-        assert(icon != null),
         assert(content != null);
 
   @override
