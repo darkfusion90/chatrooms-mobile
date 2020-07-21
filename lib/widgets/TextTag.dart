@@ -13,7 +13,7 @@ class TextTag extends StatelessWidget {
           border: Border.all(
             color: borderColor ?? Theme.of(context).primaryColor,
           ),
-          color: Colors.transparent,
+          color: Theme.of(context).primaryColor,
         ),
         padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
         child: child,
