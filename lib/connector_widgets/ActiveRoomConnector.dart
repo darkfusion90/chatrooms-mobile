@@ -7,6 +7,8 @@ import 'package:chatrooms/redux/actions/active_room_actions/set-active-room.dart
 import 'package:chatrooms/redux/models/room_details_model.dart';
 import 'package:chatrooms/redux/models/room.dart';
 import 'package:chatrooms/redux/selectors/active_room_selectors/active_room_selector.dart';
+import 'package:chatrooms/redux/selectors/branch_selectors/branch-list-selector.dart';
+import 'package:chatrooms/redux/selectors/branch_selectors/current-branch-selector.dart';
 import 'package:chatrooms/redux/state/AppState.dart';
 
 import 'package:chatrooms/connector_widgets/RoomActionsConnector.dart';
@@ -47,9 +49,11 @@ class ActiveRoomConnector extends StatelessWidget {
 
   RoomDetailsModel _activeRoomDetails(Store<AppState> store) =>
       RoomDetailsModel(
-        activeRoomSelector(store.state),
-        activeRoomMembersSelector(store.state),
-        activeRoomMessagesSelector(store.state),
+        room: activeRoomSelector(store.state),
+        branches: branchListSelector(store.state),
+        currentBranch: currentBranchSelector(store.state),
+        members: activeRoomMembersSelector(store.state),
+        messages: activeRoomMessagesSelector(store.state),
       );
 
   RoomCallback _setActiveRoom(Store<AppState> store) =>
