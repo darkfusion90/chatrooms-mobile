@@ -1,31 +1,36 @@
-import 'package:chatrooms/redux/models/room-message.dart';
-import 'package:chatrooms/redux/models/room.dart';
-import 'package:chatrooms/services/api/api.dart';
-import 'package:chatrooms/utils/send_message.dart';
 import 'package:requests/requests.dart';
 
-import 'api-rooms.dart';
+import 'package:chatrooms/redux/models/branch.dart';
+import 'package:chatrooms/redux/models/room-message.dart';
+import 'package:chatrooms/redux/models/room.dart';
+import 'package:chatrooms/services/api/api-branch.dart';
+import 'package:chatrooms/services/api/api.dart';
 
 class ApiRoomMessages {
-  static final String _root = '${ApiRooms.root}/:roomId/messages';
+  static final String _root = '${ApiBranch.rootUrl}/messages';
 
-  String root(RoomModel room) => _root.replaceAll(':roomId', room.id);
+  static String root(RoomModel room, BranchModel branch) => ApiBranch.root(room,
+      branch: branch, baseUrl: _root, includeBranch: false);
 
-  Future<List<RoomMessage>> getMessages(RoomModel room) async {
-    final messagesJson = await Api.getJson(root(room));
-    if (messagesJson is! List<dynamic>) {
-      print(
-          'Json not a list. returning empty list. type: ${messagesJson.runtimeType}');
-      return [];
-    }
+  Future<List<RoomMessage>> getMessages(
+    RoomModel room,
+    BranchModel branch,
+  ) async {
+    final String url = root(room, branch);
+    final Map<String, dynamic> json = await Api.getJson(url);
+    print('messages response json: , $json');
+    List<dynamic> messages = json['messages'];
 
     return List<RoomMessage>.generate(
-      messagesJson.length,
-      (index) => RoomMessage.fromJson(messagesJson[index]),
+      messages.length,
+      (index) => RoomMessage.fromJson(messages[index]),
     );
   }
 
-  Future<void> sendMessage(RoomModel room, String message) async {
-    await Requests.post(root(room), json: {'message': message});
-  }
+  Future<void> sendMessage(
+    RoomModel room,
+    String message, [
+    BranchModel branch,
+  ]) =>
+      Requests.post(root(room, branch), json: {'message': message});
 }
